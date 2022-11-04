@@ -1,12 +1,10 @@
 # BE-RecycleIT
 
----
 
 This repo is used for keeping the backend of the RecycleIT application developed for the collective project.
 
 ## Local setup
 
----
 
 ### What you will need to install?
 
@@ -29,13 +27,11 @@ This repo is used for keeping the backend of the RecycleIT application developed
 
 ## Problems and solutions
 
----
 
 Please write here any problem that you face + the solution for it.
 
 ## Q&A
 
----
 
 ### How does flyway work?
 
