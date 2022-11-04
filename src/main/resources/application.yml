@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/RecycleIT
+    username: admin
+    password: admin
+  jpa:
+    show-sql: true
+  flyway:
+    enabled: true
+    validate-on-migrate: true
