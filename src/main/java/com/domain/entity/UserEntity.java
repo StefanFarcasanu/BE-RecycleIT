@@ -2,6 +2,7 @@ package com.domain.entity;
 
 import com.domain.enums.RoleEnum;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "users")
 public class UserEntity {
 

@@ -15,8 +15,17 @@ public class RequestController {
     private final RequestService requestService;
 
     @GetMapping
-    public List<RequestDto> getRequests() {
-        return requestService.getAllRequests();
+    public List<RequestDto> getRequests(@RequestParam(name = "companyId", required = false) Integer companyId) {
+        if (companyId == null) {
+            return requestService.getAllRequests();
+        } else {
+            return requestService.getRequestsByCompanyId(companyId);
+        }
+    }
+
+    @GetMapping("/{requestId}")
+    public RequestDto getRequestById(@PathVariable Integer requestId) {
+        return requestService.getRequestById(requestId);
     }
 
     @PutMapping("/{requestId}")

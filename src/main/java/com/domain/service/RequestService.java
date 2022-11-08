@@ -22,10 +22,15 @@ public class RequestService {
 
     public List<RequestDto> getAllRequests() {
         List<RequestEntity> entities = requestRepository.findAll();
+
+        if (entities.isEmpty()) {
+            throw new NoSuchElementException("There are no requests!");
+        }
+
         return entities.stream().map(RequestMapper::entityToDto).collect(Collectors.toList());
     }
 
-    @Transactional()
+    @Transactional
     public RequestDto updateRequest(Integer requestId, RequestDto body) {
         if (body.getStatus() == null) {
             throw new IllegalArgumentException("Request status not provided!");
@@ -48,5 +53,24 @@ public class RequestService {
 
         requestRepository.save(updated);
         return RequestMapper.entityToDto(updated);
+    }
+
+    public RequestDto getRequestById(Integer requestId) {
+        Optional<RequestEntity> found = requestRepository.findById(requestId);
+        if (found.isEmpty()) {
+            throw new NoSuchElementException("Request not found!");
+        }
+
+        return RequestMapper.entityToDto(found.get());
+    }
+
+    public List<RequestDto> getRequestsByCompanyId(Integer companyId) {
+        List<RequestEntity> entities = requestRepository.findAllByCompanyId(companyId);
+
+        if (entities.isEmpty()) {
+            throw new NoSuchElementException("There are no requests for this company!");
+        }
+
+        return entities.stream().map(RequestMapper::entityToDto).collect(Collectors.toList());
     }
 }
