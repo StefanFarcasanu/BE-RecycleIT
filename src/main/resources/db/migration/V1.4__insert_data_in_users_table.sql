@@ -1,0 +1,2 @@
+INSERT INTO users(firstname, lastname, email, `password`, county, city, role) VALUES ('Giani', 'Fantasticul', 'giani@gmail.com', 'aaa', 'Cluj', 'Cluj-Napoca', 'CLIENT');
+INSERT INTO users(firstname, lastname, email, `password`, county, city, role) VALUES ('Firma Reciclare', NULL, 'firma@gmail.com', 'aaa', 'Cluj', 'Cluj-Napoca', 'COMPANY');
