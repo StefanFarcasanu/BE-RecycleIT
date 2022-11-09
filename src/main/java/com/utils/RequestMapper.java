@@ -11,8 +11,8 @@ public class RequestMapper {
                 .clientId(entity.getClient().getId())
                 .companyId(entity.getCompany().getId())
                 .quantity(entity.getQuantity())
-                .type(entity.getType().toString())
-                .status(entity.getStatus().toString())
+                .type(entity.getType())
+                .status(entity.getStatus())
                 .build();
     }
 }

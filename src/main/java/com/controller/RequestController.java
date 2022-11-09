@@ -3,6 +3,7 @@ package com.controller;
 import com.domain.dto.RequestDto;
 import com.domain.service.RequestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class RequestController {
     private final RequestService requestService;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<RequestDto> getRequests(@RequestParam(name = "companyId", required = false) Integer companyId) {
         if (companyId == null) {
             return requestService.getAllRequests();
@@ -24,11 +26,13 @@ public class RequestController {
     }
 
     @GetMapping("/{requestId}")
+    @ResponseStatus(HttpStatus.OK)
     public RequestDto getRequestById(@PathVariable Integer requestId) {
         return requestService.getRequestById(requestId);
     }
 
     @PutMapping("/{requestId}")
+    @ResponseStatus(HttpStatus.OK)
     public RequestDto updateRequest(@PathVariable Integer requestId, @RequestBody RequestDto body) {
         return requestService.updateRequest(requestId, body);
     }

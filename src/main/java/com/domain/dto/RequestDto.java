@@ -1,5 +1,7 @@
 package com.domain.dto;
 
+import com.domain.enums.StatusEnum;
+import com.domain.enums.TypeEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +17,7 @@ public class RequestDto {
 
     private Integer quantity;
 
-    private String type;
+    private TypeEnum type;
 
-    private String status;
+    private StatusEnum status;
 }
