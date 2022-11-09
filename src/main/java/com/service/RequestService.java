@@ -1,4 +1,4 @@
-package com.domain.service;
+package com.service;
 
 import com.domain.dto.RequestDto;
 import com.domain.entity.RequestEntity;
@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 public class RequestService {
 
     private final RequestRepository requestRepository;
+
+    private final EmailService emailService;
 
     public List<RequestDto> getAllRequests() {
         List<RequestEntity> entities = requestRepository.findAll();
@@ -54,6 +56,8 @@ public class RequestService {
         }
 
         requestRepository.save(updated);
+        emailService.sendSimpleMail(updated);
+
         return RequestMapper.entityToDto(updated);
     }
 
