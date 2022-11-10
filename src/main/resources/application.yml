@@ -6,6 +6,9 @@ spring:
     password: admin
   jpa:
     show-sql: true
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
   flyway:
     enabled: true
     validate-on-migrate: true
