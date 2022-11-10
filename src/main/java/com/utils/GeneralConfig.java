@@ -14,18 +14,6 @@ import java.security.interfaces.RSAPublicKey;
 @Getter
 @Setter
 public class GeneralConfig {
-//    @Value("${validator.url")
-//    private String validatorURL;
-//
-//    @Value("${validator.auth.username}")
-//    private String validatorAuthUsername;
-//
-//    @Value("${validator.auth.password}")
-//    private String validatorAuthPassword;
-//
-//    @Value("${bootstrap}")
-//    private boolean bootstrap;
-
     @Value("${jwt.public.key}")
     private RSAPublicKey key;
 
