@@ -9,3 +9,6 @@ spring:
   flyway:
     enabled: true
     validate-on-migrate: true
+  mail:
+    username: recycleitapplication@gmail.com
+    password: aumntrenzcghinpz
