@@ -1,9 +1,13 @@
 package com.service;
 
-import com.domain.dto.RequestDto;
-import com.domain.entity.RequestEntity;
+import com.domain.dto.RecycleRequestDto;
+import com.domain.dto.UserDto;
+import com.domain.entity.RecycleRequestEntity;
+import com.domain.enums.RoleEnum;
 import com.domain.enums.StatusEnum;
+import com.domain.enums.TypeEnum;
 import com.repo.RequestRepository;
+import com.repo.UserRepository;
 import com.utils.RequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,16 +19,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.utils.RequestMapper.dtoToEntity;
+import static com.utils.RequestMapper.entityToDto;
+
 @Service
 @RequiredArgsConstructor
 public class RequestService {
 
     private final RequestRepository requestRepository;
 
+    private final UserRepository userRepository;
+
     private final EmailService emailService;
 
-    public List<RequestDto> getAllRequests() {
-        List<RequestEntity> entities = requestRepository.findAll();
+    public List<RecycleRequestDto> getAllRequests() {
+        List<RecycleRequestEntity> entities = requestRepository.findAll();
 
         if (entities.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no requests!");
@@ -34,7 +43,7 @@ public class RequestService {
     }
 
     @Transactional
-    public RequestDto updateRequest(Integer requestId, RequestDto body) {
+    public RecycleRequestDto updateRequest(Integer requestId, RecycleRequestDto body) {
         if (body.getStatus() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request status not provided!");
         }
@@ -43,12 +52,12 @@ public class RequestService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal request status provided! Should be CONFIRMED or DECLINED.");
         }
 
-        Optional<RequestEntity> found = requestRepository.findById(requestId);
+        Optional<RecycleRequestEntity> found = requestRepository.findById(requestId);
         if (found.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Request not found!");
         }
 
-        RequestEntity updated = found.get();
+        RecycleRequestEntity updated = found.get();
         if (StatusEnum.CONFIRMED.equals(body.getStatus())) {
             updated.setStatus(StatusEnum.CONFIRMED);
         } else {
@@ -61,8 +70,8 @@ public class RequestService {
         return RequestMapper.entityToDto(updated);
     }
 
-    public RequestDto getRequestById(Integer requestId) {
-        Optional<RequestEntity> found = requestRepository.findById(requestId);
+    public RecycleRequestDto getRequestById(Integer requestId) {
+        Optional<RecycleRequestEntity> found = requestRepository.findById(requestId);
         if (found.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Request not found!");
         }
@@ -70,8 +79,8 @@ public class RequestService {
         return RequestMapper.entityToDto(found.get());
     }
 
-    public List<RequestDto> getRequestsByCompanyId(Integer companyId) {
-        List<RequestEntity> entities = requestRepository.findAllByCompanyId(companyId);
+    public List<RecycleRequestDto> getRequestsByCompanyId(Integer companyId) {
+        List<RecycleRequestEntity> entities = requestRepository.findAllByCompanyId(companyId);
 
         if (entities.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no requests for this company!");
@@ -79,4 +88,27 @@ public class RequestService {
 
         return entities.stream().map(RequestMapper::entityToDto).collect(Collectors.toList());
     }
+
+    public RecycleRequestDto add(RecycleRequestDto body) {
+        var client = userRepository.findById(body.getClientId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client do not exists!"));
+        var company = userRepository.findById(body.getCompanyId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company do not exists!"));
+
+        if (body.getQuantity() <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal request quantity provided! Can not be 0");
+        }
+
+        if (!TypeEnum.METAL.equals(body.getType()) && !TypeEnum.ELECTRONICS.equals(body.getType()) && !TypeEnum.PAPER.equals(body.getType()) && !TypeEnum.PLASTIC.equals(body.getType())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal request type provided! Should be one of: METAL, ELECTRONICS, PAPER or PLASTIC.");
+        }
+
+        var recycling = dtoToEntity(body);
+        recycling.setClient(client);
+        recycling.setCompany(company);
+
+        requestRepository.save(recycling);
+
+        emailService.sendThanksMail(recycling);
+        return entityToDto(recycling);
+    }
+
 }
