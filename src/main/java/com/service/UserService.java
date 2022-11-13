@@ -3,10 +3,13 @@ package com.service;
 import com.domain.dto.UserDto;
 import com.domain.entity.UserEntity;
 import com.domain.enums.RoleEnum;
+import com.domain.validation.UserValidator;
+import com.domain.validation.ValidationException;
 import com.repo.UserRepository;
 import com.utils.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,5 +36,15 @@ public class UserService {
         }
 
         return entities.stream().map(UserMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    public UserEntity addUser(UserEntity user)
+    {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(13);
+        UserValidator.validate(user);
+        if(!userRepository.findUserEntityByEmail(user.getEmail()).isEmpty())
+            throw new ValidationException("Email address already used!");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return this.userRepository.save(user);
     }
 }

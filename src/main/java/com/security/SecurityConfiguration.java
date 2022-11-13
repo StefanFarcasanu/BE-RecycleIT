@@ -69,7 +69,7 @@ public class SecurityConfiguration {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtDecoder(), userRepository))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling((exceptions) -> exceptions
