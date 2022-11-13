@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "requests")
-public class RequestEntity {
+public class RecycleRequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
