@@ -1,9 +1,11 @@
 package com.controller;
 
 import com.domain.dto.UserDto;
+import com.domain.entity.UserEntity;
 import com.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,5 +25,13 @@ public class UserController {
         } else {
             return userService.getCompaniesFromUserCounty(clientId);
         }
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> registerUser(@RequestBody UserEntity user)
+    {
+        this.userService.addUser(user);
+        return new ResponseEntity<>("Account created!\n", HttpStatus.OK);
     }
 }
