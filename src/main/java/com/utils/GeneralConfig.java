@@ -14,10 +14,10 @@ import java.security.interfaces.RSAPublicKey;
 @Getter
 @Setter
 public class GeneralConfig {
-    @Value("${jwt.public.key}")
+    @Value("${spring.jwt.public.key}")
     private RSAPublicKey key;
 
-    @Value("${jwt.private.key}")
+    @Value("${spring.jwt.private.key}")
     private RSAPrivateKey priv;
 
 }
