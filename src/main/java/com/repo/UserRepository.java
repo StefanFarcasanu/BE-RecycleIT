@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    Optional<UserEntity> findUserEntityByEmail(String email);
 
     List<UserEntity> findAllByCountyEqualsAndRoleEquals(String county, RoleEnum roleEnum);
 
