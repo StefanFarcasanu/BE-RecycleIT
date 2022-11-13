@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RequestDto {
+public class RecycleRequestDto {
 
     private Integer id;
 
