@@ -31,13 +31,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> registerUser(@RequestBody UserEntity user)
     {
-        try{
-            this.userService.addUser(user);
-            return new ResponseEntity<>("Account created!\n", HttpStatus.OK);
-        }
-        catch (Exception err)
-        {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        this.userService.addUser(user);
+        return new ResponseEntity<>("Account created!\n", HttpStatus.OK);
     }
 }
