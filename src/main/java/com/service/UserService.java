@@ -45,6 +45,7 @@ public class UserService {
         if(!userRepository.findUserEntityByEmail(user.getEmail()).isEmpty())
             throw new ValidationException("Email address already used!");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(RoleEnum.CLIENT);
         return this.userRepository.save(user);
     }
 }
