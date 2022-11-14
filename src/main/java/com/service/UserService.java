@@ -38,8 +38,7 @@ public class UserService {
         return entities.stream().map(UserMapper::entityToDto).collect(Collectors.toList());
     }
 
-    public UserEntity addUser(UserEntity user)
-    {
+    public UserEntity addUser(UserEntity user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(13);
         UserValidator.validate(user);
         if(!userRepository.findUserEntityByEmail(user.getEmail()).isEmpty())
