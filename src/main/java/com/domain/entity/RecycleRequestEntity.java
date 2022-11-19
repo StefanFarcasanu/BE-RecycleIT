@@ -5,6 +5,7 @@ import com.domain.enums.TypeEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Setter
 @Builder
@@ -38,6 +39,9 @@ public class RecycleRequestEntity {
     @Column(name = "status")
     private StatusEnum status;
 
+    @Column(name = "date")
+    private LocalDateTime date;
+
     public Integer getId() {
         return id;
     }
@@ -60,5 +64,9 @@ public class RecycleRequestEntity {
 
     public StatusEnum getStatus() {
         return status;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 }

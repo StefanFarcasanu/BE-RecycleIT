@@ -1,8 +1,8 @@
 package com.controller;
 
 import com.domain.dto.RecycleRequestDto;
-import com.domain.dto.UserDto;
-import com.service.RequestService;
+import com.domain.entity.RecycleRequestEntity;
+import com.service.RecycleRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,34 +14,34 @@ import java.util.List;
 @RequestMapping("/requests")
 public class RequestController {
 
-    private final RequestService requestService;
+    private final RecycleRequestService recycleRequestService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<RecycleRequestDto> getRequests(@RequestParam(name = "companyId", required = false) Integer companyId) {
+    public List<RecycleRequestEntity> getRequests(@RequestParam(name = "companyId", required = false) Integer companyId) {
         if (companyId == null) {
-            return requestService.getAllRequests();
+            return recycleRequestService.getAllRequests();
         } else {
-            return requestService.getRequestsByCompanyId(companyId);
+            return recycleRequestService.getRequestsByCompanyId(companyId);
         }
     }
 
     @GetMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
-    public RecycleRequestDto getRequestById(@PathVariable Integer requestId) {
-        return requestService.getRequestById(requestId);
+    public RecycleRequestEntity getRequestById(@PathVariable Integer requestId) {
+        return recycleRequestService.getRequestById(requestId);
     }
 
     @PutMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
-    public RecycleRequestDto updateRequest(@PathVariable Integer requestId, @RequestBody RecycleRequestDto body) {
-        return requestService.updateRequest(requestId, body);
+    public RecycleRequestEntity updateRequest(@PathVariable Integer requestId, @RequestBody RecycleRequestDto body) {
+        return recycleRequestService.updateRequest(requestId, body);
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public RecycleRequestDto addRecycleRequest(@RequestBody RecycleRequestDto body) {
-        return requestService.add(body);
+    public RecycleRequestEntity addRecycleRequest(@RequestBody RecycleRequestDto body) {
+        return recycleRequestService.addRequest(body);
     }
 }

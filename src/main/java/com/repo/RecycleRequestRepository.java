@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface RequestRepository extends JpaRepository<RecycleRequestEntity, Integer> {
+public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEntity, Integer> {
 
     @Query(value = "SELECT * FROM requests WHERE company_id = :companyId", nativeQuery = true)
     List<RecycleRequestEntity> findAllByCompanyId(Integer companyId);
