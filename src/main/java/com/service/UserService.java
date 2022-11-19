@@ -38,13 +38,13 @@ public class UserService {
         return entities.stream().map(UserMapper::entityToDto).collect(Collectors.toList());
     }
 
-    public UserEntity addUser(UserEntity user)
-    {
+    public UserEntity addUser(UserEntity user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(13);
         UserValidator.validate(user);
         if(!userRepository.findUserEntityByEmail(user.getEmail()).isEmpty())
             throw new ValidationException("Email address already used!");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(RoleEnum.CLIENT);
         return this.userRepository.save(user);
     }
 }

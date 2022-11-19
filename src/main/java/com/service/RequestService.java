@@ -105,6 +105,8 @@ public class RequestService {
         recycling.setClient(client);
         recycling.setCompany(company);
 
+        body.setStatus(StatusEnum.PENDING);
+
         requestRepository.save(recycling);
 
         emailService.sendThanksMail(recycling);

@@ -29,8 +29,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> registerUser(@RequestBody UserEntity user)
-    {
+    public ResponseEntity<?> registerUser(@RequestBody UserEntity user) {
         this.userService.addUser(user);
         return new ResponseEntity<>("Account created!\n", HttpStatus.OK);
     }
