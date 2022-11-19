@@ -40,7 +40,7 @@ public class RequestController {
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public RecycleRequestEntity addRecycleRequest(@RequestBody RecycleRequestDto body) {
         return recycleRequestService.addRequest(body);
     }

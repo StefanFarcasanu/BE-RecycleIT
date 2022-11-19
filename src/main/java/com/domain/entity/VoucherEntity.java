@@ -1,7 +1,6 @@
 package com.domain.entity;
 
-import com.domain.enums.StatusEnum;
-import com.domain.enums.TypeEnum;
+import com.domain.enums.VoucherStatusEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "requests")
-public class RecycleRequestEntity {
+@Table(name = "vouchers")
+public class VoucherEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,22 +24,24 @@ public class RecycleRequestEntity {
     private UserEntity client;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
-    private UserEntity company;
+    @JoinColumn(name = "retailer_id", referencedColumnName = "id")
+    private UserEntity retailer;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "value")
+    private Double value;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private TypeEnum type;
+    @Column(name = "details")
+    private String details;
+
+    @Column(name = "code")
+    private String code;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private StatusEnum status;
+    private VoucherStatusEnum status;
 
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "valid_until")
+    private LocalDateTime vaildUntil;
 
     // Getters are manually created, due to bugs/issues regarding @Entities and Enums.
     public Integer getId() {
@@ -51,23 +52,27 @@ public class RecycleRequestEntity {
         return client;
     }
 
-    public UserEntity getCompany() {
-        return company;
+    public UserEntity getRetailer() {
+        return retailer;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Double getValue() {
+        return value;
     }
 
-    public TypeEnum getType() {
-        return type;
+    public String getDetails() {
+        return details;
     }
 
-    public StatusEnum getStatus() {
+    public String getCode() {
+        return code;
+    }
+
+    public VoucherStatusEnum getStatus() {
         return status;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getVaildUntil() {
+        return vaildUntil;
     }
 }
