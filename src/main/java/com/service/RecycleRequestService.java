@@ -110,4 +110,26 @@ public class RecycleRequestService {
 
         return recycling;
     }
+
+    public Double getNextMilestoneForUserId(Integer userId) {
+        Optional<Double> sum = recycleRequestRepository.getTotalRecycledQuantityByUser(userId);
+
+        if (sum.isEmpty()) {
+            return 0.5;
+        } else {
+            Double total = sum.get();
+
+            if (total > 20) {
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You have already redeemed all of your vouchers!");
+            }
+
+            if (total < 0.5) {
+                return 0.5;
+            } else if (total < 1) {
+                return 1.0;
+            } else {
+                return (double) (total.intValue() + (total.intValue() % 2 == 0 ? 2 : 1));
+            }
+        }
+    }
 }

@@ -17,7 +17,7 @@ public class RecycleRequestDto {
 
     private Integer companyId;
 
-    private Integer quantity;
+    private Double quantity;
 
     private TypeEnum type;
 
