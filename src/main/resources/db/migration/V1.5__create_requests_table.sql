@@ -6,6 +6,7 @@ create table requests
     quantity int null,
     type varchar(15) null,
     status varchar(10) null,
+    date timestamp null,
     constraint requests_pk
         primary key (id),
     constraint requests_users_id_fk

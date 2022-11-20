@@ -43,6 +43,7 @@ public class UserEntity {
     @Column(name = "role")
     private RoleEnum role;
 
+    // Getters are manually created, due to bugs/issues regarding @Entities and Enums.
     public Integer getId() {
         return id;
     }

@@ -5,6 +5,8 @@ import com.domain.enums.TypeEnum;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class RecycleRequestDto {
@@ -20,4 +22,6 @@ public class RecycleRequestDto {
     private TypeEnum type;
 
     private StatusEnum status;
+
+    private LocalDateTime date;
 }

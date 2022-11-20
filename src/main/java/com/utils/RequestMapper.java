@@ -2,7 +2,6 @@ package com.utils;
 
 import com.domain.dto.RecycleRequestDto;
 import com.domain.entity.RecycleRequestEntity;
-import com.domain.enums.StatusEnum;
 
 public class RequestMapper {
 
@@ -14,6 +13,7 @@ public class RequestMapper {
                 .quantity(entity.getQuantity())
                 .type(entity.getType())
                 .status(entity.getStatus())
+                .date(entity.getDate())
                 .build();
     }
 
@@ -22,7 +22,8 @@ public class RequestMapper {
                 .id(dto.getId())
                 .quantity(dto.getQuantity())
                 .type(dto.getType())
-                .status(StatusEnum.PENDING)
+                .status(dto.getStatus())
+                .date(dto.getDate())
                 .build();
     }
 }

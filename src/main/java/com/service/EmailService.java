@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 @Service
@@ -21,7 +22,9 @@ public class EmailService {
 
     private static final String SENDER = "recycleitapplication@gmail.com";
 
-    public void sendSimpleMail(RecycleRequestEntity requestEntity) {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    public void sendConfirmationMail(RecycleRequestEntity requestEntity) {
         try {
 
             String template = loadTemplate("src/main/resources/requestConfirmedEmailTemplate.html");
@@ -58,6 +61,7 @@ public class EmailService {
                 template = template.replace("{0}", requestEntity.getClient().getFirstname());
                 template = template.replace("{1}", requestEntity.getQuantity().toString());
                 template = template.replace("{2}", requestEntity.getType().toString());
+                template = template.replace("{3}", requestEntity.getDate().format(DATE_FORMAT));
 
                 MimeMessage mailMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true);
