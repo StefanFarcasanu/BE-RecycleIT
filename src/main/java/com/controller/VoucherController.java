@@ -24,4 +24,13 @@ public class VoucherController {
             return voucherService.getVouchersByClientId(clientId);
         }
     }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public VoucherEntity redeemVoucherForClient(
+            @RequestParam(name = "clientId", required = true) Integer clientId,
+            @RequestParam(name = "quantity", required = true) Double quantity
+    ) {
+        return voucherService.redeemVoucherForClientId(clientId, quantity * 10);
+    }
 }

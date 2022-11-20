@@ -44,4 +44,10 @@ public class RequestController {
     public RecycleRequestEntity addRecycleRequest(@RequestBody RecycleRequestDto body) {
         return recycleRequestService.addRequest(body);
     }
+
+    @GetMapping("/milestone/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Double getTheNextMilestoneForUserId(@PathVariable Integer userId) {
+        return recycleRequestService.getNextMilestoneForUserId(userId);
+    }
 }

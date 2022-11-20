@@ -29,7 +29,7 @@ public class RecycleRequestEntity {
     private UserEntity company;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private Double quantity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -55,7 +55,7 @@ public class RecycleRequestEntity {
         return company;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
