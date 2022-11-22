@@ -9,12 +9,10 @@ import com.repo.UserRepository;
 import com.utils.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.management.relation.Role;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +37,9 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no users!");
         }
 
-        return entities.stream().map(UserMapper::entityToDto).collect(Collectors.toList());
+        List<UserDto> dtos = entities.stream().map(UserMapper::entityToDto).collect(Collectors.toList());
+        dtos.forEach(x -> x.setPassword(""));
+        return dtos;
     }
 
     public void addUser(UserEntity user) {
@@ -55,7 +55,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserEntity updateUserAccount(Integer clientId, UserDto userDto) {
+    public UserEntity updateClientAccount(Integer clientId, UserDto userDto) {
         userDto.setId(clientId);
         userDto.setRole(RoleEnum.CLIENT);
         UserEntity userEntity = UserMapper.dtoToEntity(userDto);
@@ -69,9 +69,9 @@ public class UserService {
         return updatedUser;
     }
 
-    public UserEntity getUserById(Integer userId) {
+    public UserEntity getClientById(Integer clientId) {
         UserEntity user =  userRepository
-                .findByIdAndRole(userId, RoleEnum.CLIENT)
+                .findByIdAndRole(clientId, RoleEnum.CLIENT)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "No client found with the entered id!"

@@ -13,8 +13,11 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
     List<RecycleRequestEntity> findAllByCompanyId(Integer companyId);
 
     @Query(
-            value = "SELECT SUM(quantity) FROM requests WHERE client_id = :userId AND status = 'CONFIRMED'",
+            value = "SELECT SUM(quantity) FROM requests WHERE client_id = :clientId AND status = 'CONFIRMED'",
             nativeQuery = true
     )
-    Optional<Double> getTotalRecycledQuantityByUser(Integer userId);
+    Optional<Double> getTotalRecycledQuantityByClient(Integer clientId);
+
+    @Query(value = "SELECT * FROM requests WHERE client_id = :clientId ORDER BY date DESC", nativeQuery = true)
+    List<RecycleRequestEntity> getRecyclingHistoryForClientId(Integer clientId);
 }

@@ -45,9 +45,15 @@ public class RequestController {
         return recycleRequestService.addRequest(body);
     }
 
-    @GetMapping("/milestone/{userId}")
+    @GetMapping("/milestone/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public Double getTheNextMilestoneForUserId(@PathVariable Integer userId) {
-        return recycleRequestService.getNextMilestoneForUserId(userId);
+    public Double getTheNextMilestoneForClientId(@PathVariable Integer clientId) {
+        return recycleRequestService.getNextMilestoneForClientId(clientId);
+    }
+
+    @GetMapping("/history/{clientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RecycleRequestEntity> getRecyclingHistoryForClientId(@PathVariable Integer clientId) {
+        return recycleRequestService.getRecyclingHistoryForClientId(clientId);
     }
 }

@@ -35,6 +35,11 @@ public class RecycleRequestService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no requests!");
         }
 
+        entities.forEach(x -> {
+            x.getClient().setPassword("");
+            x.getCompany().setPassword("");
+        });
+
         return entities;
     }
 
@@ -63,6 +68,9 @@ public class RecycleRequestService {
         recycleRequestRepository.save(updated);
         emailService.sendConfirmationMail(updated);
 
+        updated.getClient().setPassword("");
+        updated.getCompany().setPassword("");
+
         return updated;
     }
 
@@ -72,7 +80,11 @@ public class RecycleRequestService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Request not found!");
         }
 
-        return found.get();
+        RecycleRequestEntity entity = found.get();
+        entity.getClient().setPassword("");
+        entity.getCompany().setPassword("");
+
+        return entity;
     }
 
     public List<RecycleRequestEntity> getRequestsByCompanyId(Integer companyId) {
@@ -81,6 +93,11 @@ public class RecycleRequestService {
         if (entities.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no requests for this company!");
         }
+
+        entities.forEach(x -> {
+            x.getClient().setPassword("");
+            x.getCompany().setPassword("");
+        });
 
         return entities;
     }
@@ -104,6 +121,8 @@ public class RecycleRequestService {
         var recycling = dtoToEntity(body);
         recycling.setClient(client);
         recycling.setCompany(company);
+        recycling.getClient().setPassword("");
+        recycling.getCompany().setPassword("");
 
         recycleRequestRepository.save(recycling);
         emailService.sendThanksMail(recycling);
@@ -111,8 +130,8 @@ public class RecycleRequestService {
         return recycling;
     }
 
-    public Double getNextMilestoneForUserId(Integer userId) {
-        Optional<Double> sum = recycleRequestRepository.getTotalRecycledQuantityByUser(userId);
+    public Double getNextMilestoneForClientId(Integer clientId) {
+        Optional<Double> sum = recycleRequestRepository.getTotalRecycledQuantityByClient(clientId);
 
         if (sum.isEmpty()) {
             return 0.5;
@@ -131,5 +150,20 @@ public class RecycleRequestService {
                 return (double) (total.intValue() + (total.intValue() % 2 == 0 ? 2 : 1));
             }
         }
+    }
+
+    public List<RecycleRequestEntity> getRecyclingHistoryForClientId(Integer clientId) {
+        List<RecycleRequestEntity> entities = recycleRequestRepository.getRecyclingHistoryForClientId(clientId);
+
+        if (entities.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This client has made no recycling requests!");
+        }
+
+        entities.forEach(x -> {
+            x.getClient().setPassword("");
+            x.getCompany().setPassword("");
+        });
+
+        return entities;
     }
 }
