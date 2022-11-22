@@ -29,8 +29,20 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> registerUser(@RequestBody UserEntity user) {
+    public String registerUser(@RequestBody UserEntity user) {
         this.userService.addUser(user);
-        return new ResponseEntity<>("Account created!\n", HttpStatus.OK);
+        return "Account created!\n";
+    }
+
+    @PutMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserEntity updateUserAccount(@PathVariable Integer userId, @RequestBody UserDto user) {
+        return this.userService.updateUserAccount(userId, user);
+    }
+
+    @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserEntity getUserById(@PathVariable Integer userId) {
+        return this.userService.getUserById(userId);
     }
 }

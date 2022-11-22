@@ -2,6 +2,7 @@ package com.utils;
 
 import com.domain.dto.UserDto;
 import com.domain.entity.UserEntity;
+import com.domain.enums.RoleEnum;
 
 public class UserMapper {
 
@@ -15,6 +16,19 @@ public class UserMapper {
                 .county(entity.getCounty())
                 .city(entity.getCity())
                 .role(entity.getRole())
+                .build();
+    }
+
+    public static UserEntity dtoToEntity(UserDto userDto) {
+        return UserEntity.builder()
+                .id(userDto.getId())
+                .firstname(userDto.getFirstname())
+                .lastname(userDto.getLastname())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .county(userDto.getCounty())
+                .city(userDto.getCity())
+                .role(userDto.getRole())
                 .build();
     }
 }

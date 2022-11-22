@@ -37,7 +37,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ValidationException.class})
     public ResponseEntity<String> handleValidationException(ValidationException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
