@@ -47,8 +47,8 @@ public class RequestController {
 
     @GetMapping("/milestone/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public Double getTheNextMilestoneForUserId(@PathVariable Integer clientId) {
-        return recycleRequestService.getNextMilestoneForUserId(clientId);
+    public Double getTheNextMilestoneForClientId(@PathVariable Integer clientId) {
+        return recycleRequestService.getNextMilestoneForClientId(clientId);
     }
 
     @GetMapping("/history/{clientId}")

@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserEntity getUserById(@PathVariable Integer clientId) {
+    public UserEntity getClientById(@PathVariable Integer clientId) {
         return this.userService.getClientById(clientId);
     }
 }

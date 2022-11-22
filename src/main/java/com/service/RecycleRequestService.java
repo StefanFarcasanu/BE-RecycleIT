@@ -130,8 +130,8 @@ public class RecycleRequestService {
         return recycling;
     }
 
-    public Double getNextMilestoneForUserId(Integer userId) {
-        Optional<Double> sum = recycleRequestRepository.getTotalRecycledQuantityByUser(userId);
+    public Double getNextMilestoneForClientId(Integer clientId) {
+        Optional<Double> sum = recycleRequestRepository.getTotalRecycledQuantityByClient(clientId);
 
         if (sum.isEmpty()) {
             return 0.5;
