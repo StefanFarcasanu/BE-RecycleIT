@@ -5,7 +5,6 @@ import com.domain.entity.UserEntity;
 import com.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,15 +33,15 @@ public class UserController {
         return "Account created!\n";
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserEntity updateUserAccount(@PathVariable Integer userId, @RequestBody UserDto user) {
-        return this.userService.updateUserAccount(userId, user);
+    public UserEntity updateClientAccount(@PathVariable Integer clientId, @RequestBody UserDto user) {
+        return this.userService.updateClientAccount(clientId, user);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserEntity getUserById(@PathVariable Integer userId) {
-        return this.userService.getUserById(userId);
+    public UserEntity getUserById(@PathVariable Integer clientId) {
+        return this.userService.getClientById(clientId);
     }
 }
