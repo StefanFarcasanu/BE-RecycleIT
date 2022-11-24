@@ -2,8 +2,10 @@ package com.service;
 
 import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
+import com.domain.enums.RoleEnum;
 import com.domain.enums.VoucherStatusEnum;
 import com.repo.NoAvailableVouchersRepository;
+import com.repo.UserRepository;
 import com.repo.VoucherRepository;
 import com.domain.entity.NoAvailableVoucher;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final UserRepository userRepository;
 
     private final NoAvailableVouchersRepository noAvailableVouchersRepository;
 
@@ -36,14 +39,15 @@ public class VoucherService {
         return entities;
     }
 
-    public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
-        List<VoucherEntity> entities = voucherRepository.findAllByClientId(clientId);
 
-        if (entities.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!");
+    public List<VoucherEntity> getVouchersById(Integer id) {
+        if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
+            return voucherRepository.findAllByClientId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
         }
-
-        return entities;
+        else if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
+            return voucherRepository.findAllByRetailerId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
+        }
+        return null;
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {
