@@ -38,9 +38,9 @@ public class VoucherController {
     }
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> createVoucher(@RequestBody VoucherDto voucherDto){
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createVoucher(@RequestBody VoucherDto voucherDto){
         this.voucherService.addVoucher(voucherDto);
-        return new ResponseEntity<>("Voucher created!\n", HttpStatus.OK);
+        return "Voucher created!\n";
     }
 }

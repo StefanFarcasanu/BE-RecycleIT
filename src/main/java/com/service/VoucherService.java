@@ -62,17 +62,16 @@ public class VoucherService {
             throw new ValidationException("Invalid retailer id!");
 
         UserEntity user = userRepository.getReferenceById(voucherDto.getRetailerId());
-        VoucherEntity voucher = new VoucherEntity();
-        voucher.setRetailer(user);
-        voucher.setValue(voucherDto.getValue());
-        voucher.setDetails(voucherDto.getDetails());
-        VoucherValidator.validate(voucher);
-        System.out.println(voucher);
-
         UUID uuid = UUID.randomUUID();
-        String uuidAsString = uuid.toString();
-        voucher.setCode(uuidAsString);
-        voucher.setStatus(VoucherStatusEnum.AVAILABLE);
+
+        VoucherEntity voucher = VoucherEntity.builder()
+                .retailer(user)
+                .value(voucherDto.getValue())
+                .details(voucherDto.getDetails())
+                .code(uuid.toString())
+                .status(VoucherStatusEnum.AVAILABLE)
+                .build();
+        VoucherValidator.validate(voucher);
 
         return this.voucherRepository.save(voucher);
     }
