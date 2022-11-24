@@ -1,5 +1,13 @@
 package com.service;
 
+import com.domain.dto.VoucherDto;
+import com.domain.entity.RecycleRequestEntity;
+import com.domain.entity.UserEntity;
+import com.domain.entity.VoucherEntity;
+import com.domain.enums.VoucherStatusEnum;
+import com.domain.validation.ValidationException;
+import com.domain.validation.VoucherValidator;
+import com.repo.UserRepository;
 import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
 import com.domain.enums.VoucherStatusEnum;
@@ -17,12 +25,14 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final UserRepository userRepository;
 
     private final NoAvailableVouchersRepository noAvailableVouchersRepository;
 
@@ -44,6 +54,27 @@ public class VoucherService {
         }
 
         return entities;
+    }
+
+    public VoucherEntity addVoucher(VoucherDto voucherDto) {
+
+        if (!userRepository.existsById(voucherDto.getRetailerId()))
+            throw new ValidationException("Invalid retailer id!");
+
+        UserEntity user = userRepository.getReferenceById(voucherDto.getRetailerId());
+        VoucherEntity voucher = new VoucherEntity();
+        voucher.setRetailer(user);
+        voucher.setValue(voucherDto.getValue());
+        voucher.setDetails(voucherDto.getDetails());
+        VoucherValidator.validate(voucher);
+        System.out.println(voucher);
+
+        UUID uuid = UUID.randomUUID();
+        String uuidAsString = uuid.toString();
+        voucher.setCode(uuidAsString);
+        voucher.setStatus(VoucherStatusEnum.AVAILABLE);
+
+        return this.voucherRepository.save(voucher);
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {

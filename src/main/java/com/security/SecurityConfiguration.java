@@ -70,6 +70,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/vouchers/create").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling((exceptions) -> exceptions
