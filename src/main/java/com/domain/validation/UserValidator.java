@@ -10,15 +10,15 @@ public class UserValidator {
     public static void validate(UserEntity entity) {
         String err = "";
 
-        if (Objects.isNull(entity.getFirstname()) || Objects.equals(entity.getFirstname(), "")) {
+        if (Objects.equals(entity.getFirstname(), "")) {
             err += "Invalid first name!\n";
         }
 
-        if (Objects.isNull(entity.getLastname()) || Objects.equals(entity.getLastname(), "")) {
+        if (Objects.equals(entity.getLastname(), "")) {
             err += "Invalid last name!\n";
         }
 
-        if (Objects.isNull(entity.getPassword()) || entity.getPassword().length() < 8) {
+        if (entity.getPassword().length() < 8) {
             err += "Invalid password!\n";
         }
 
@@ -32,11 +32,11 @@ public class UserValidator {
                 err += "Invalid e-mail!\n";
         }
 
-        if (Objects.isNull(entity.getCounty()) || Objects.equals(entity.getCounty(), "")) {
+        if (Objects.equals(entity.getCounty(), "")) {
             err += "Invalid country!\n";
         }
 
-        if (Objects.isNull(entity.getCity()) || Objects.equals(entity.getCity(), "")) {
+        if (Objects.equals(entity.getCity(), "")) {
             err += "Invalid city!\n";
         }
 

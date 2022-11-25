@@ -121,11 +121,12 @@ public class RecycleRequestService {
         var recycling = dtoToEntity(body);
         recycling.setClient(client);
         recycling.setCompany(company);
-        recycling.getClient().setPassword("");
-        recycling.getCompany().setPassword("");
 
         recycleRequestRepository.save(recycling);
         emailService.sendThanksMail(recycling);
+
+        recycling.getClient().setPassword("");
+        recycling.getCompany().setPassword("");
 
         return recycling;
     }
