@@ -13,7 +13,7 @@ public interface VoucherRepository extends JpaRepository<VoucherEntity, Integer>
     @Query(value = "SELECT * FROM vouchers WHERE client_id = :clientId", nativeQuery = true)
     Optional<List<VoucherEntity>> findAllByClientId(Integer clientId);
 
-    Optional<List<VoucherEntity>> findAllByRetailerId(Integer clientId);
+    Optional<List<VoucherEntity>> findAllByRetailerId(Integer retailerId);
 
     Optional<VoucherEntity> getFirstByValueEqualsAndStatusEqualsAndClientIsNull(Double value, VoucherStatusEnum status);
 }

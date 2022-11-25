@@ -44,10 +44,10 @@ public class VoucherService {
         if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
             return voucherRepository.findAllByClientId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
         }
-        else if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
+        else if(userRepository.findByIdAndRole(id, RoleEnum.RETAILER).isPresent()){
             return voucherRepository.findAllByRetailerId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
         }
-        return null;
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + id);
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {
