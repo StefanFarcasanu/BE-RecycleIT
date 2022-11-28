@@ -10,8 +10,10 @@ import com.domain.validation.VoucherValidator;
 import com.repo.UserRepository;
 import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
+import com.domain.enums.RoleEnum;
 import com.domain.enums.VoucherStatusEnum;
 import com.repo.NoAvailableVouchersRepository;
+import com.repo.UserRepository;
 import com.repo.VoucherRepository;
 import com.domain.entity.NoAvailableVoucher;
 import lombok.RequiredArgsConstructor;
@@ -46,14 +48,15 @@ public class VoucherService {
         return entities;
     }
 
-    public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
-        List<VoucherEntity> entities = voucherRepository.findAllByClientId(clientId);
 
-        if (entities.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!");
+    public List<VoucherEntity> getVouchersById(Integer id) {
+        if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
+            return voucherRepository.findAllByClientId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
         }
-
-        return entities;
+        else if(userRepository.findByIdAndRole(id, RoleEnum.RETAILER).isPresent()){
+            return voucherRepository.findAllByRetailerId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + id);
     }
 
     public VoucherEntity addVoucher(VoucherDto voucherDto) {

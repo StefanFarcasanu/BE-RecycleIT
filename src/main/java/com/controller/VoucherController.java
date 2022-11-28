@@ -20,11 +20,11 @@ public class VoucherController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<VoucherEntity> getVouchers(@RequestParam(name = "clientId", required = false) Integer clientId) {
-        if (clientId == null) {
+    public List<VoucherEntity> getVouchers(@RequestParam(name = "id", required = false) Integer id) {
+        if (id == null) {
             return voucherService.getAllVouchers();
         } else {
-            return voucherService.getVouchersByClientId(clientId);
+            return voucherService.getVouchersById(id);
         }
     }
 
