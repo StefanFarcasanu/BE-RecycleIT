@@ -7,6 +7,7 @@ import com.domain.enums.TypeEnum;
 import com.repo.RecycleRequestRepository;
 import com.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -166,5 +167,13 @@ public class RecycleRequestService {
         });
 
         return entities;
+    }
+
+    public void deleteRequest(Integer requestId) {
+        try {
+            recycleRequestRepository.deleteById(requestId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no request with the provided ID!");
+        }
     }
 }

@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findAllByCountyEqualsAndRoleEquals(String county, RoleEnum roleEnum);
 
     Optional<UserEntity> findByIdAndRole(Integer integer, RoleEnum roleEnum);
+
+    void deleteById(Integer userId);
 }

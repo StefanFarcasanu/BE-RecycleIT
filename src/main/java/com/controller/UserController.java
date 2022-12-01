@@ -44,4 +44,11 @@ public class UserController {
     public UserEntity getClientById(@PathVariable Integer clientId) {
         return this.userService.getClientById(clientId);
     }
+
+    // Should only be used for testing
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Integer userId) {
+        userService.deleteUser(userId);
+    }
 }
