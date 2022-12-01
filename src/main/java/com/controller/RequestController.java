@@ -2,6 +2,7 @@ package com.controller;
 
 import com.domain.dto.RecycleRequestDto;
 import com.domain.entity.RecycleRequestEntity;
+import com.security.JWTAuthorizationFilter;
 import com.service.RecycleRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,16 @@ public class RequestController {
 
     private final RecycleRequestService recycleRequestService;
 
+    @GetMapping("/company")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RecycleRequestEntity> getRequestsByCompanyId(@RequestHeader("Authorization") String token) {
+        return recycleRequestService.getRequestsByCompanyId(JWTAuthorizationFilter.getUserIdFromJwt(token));
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<RecycleRequestEntity> getRequests(@RequestParam(name = "companyId", required = false) Integer companyId) {
-        if (companyId == null) {
-            return recycleRequestService.getAllRequests();
-        } else {
-            return recycleRequestService.getRequestsByCompanyId(companyId);
-        }
+    public List<RecycleRequestEntity> getAllRequests() {
+        return recycleRequestService.getAllRequests();
     }
 
     @GetMapping("/{requestId}")
@@ -45,15 +48,15 @@ public class RequestController {
         return recycleRequestService.addRequest(body);
     }
 
-    @GetMapping("/milestone/{clientId}")
+    @GetMapping("/milestone")
     @ResponseStatus(HttpStatus.OK)
-    public Double getTheNextMilestoneForClientId(@PathVariable Integer clientId) {
-        return recycleRequestService.getNextMilestoneForClientId(clientId);
+    public Double getTheNextMilestoneForClientId(@RequestHeader("Authorization") String token) {
+        return recycleRequestService.getNextMilestoneForClientId(JWTAuthorizationFilter.getUserIdFromJwt(token));
     }
 
-    @GetMapping("/history/{clientId}")
+    @GetMapping("/history")
     @ResponseStatus(HttpStatus.OK)
-    public List<RecycleRequestEntity> getRecyclingHistoryForClientId(@PathVariable Integer clientId) {
-        return recycleRequestService.getRecyclingHistoryForClientId(clientId);
+    public List<RecycleRequestEntity> getRecyclingHistoryForClientId(@RequestHeader("Authorization") String token) {
+        return recycleRequestService.getRecyclingHistoryForClientId(JWTAuthorizationFilter.getUserIdFromJwt(token));
     }
 }

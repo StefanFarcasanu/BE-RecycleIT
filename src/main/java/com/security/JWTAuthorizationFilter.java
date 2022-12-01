@@ -4,12 +4,14 @@ import com.domain.entity.UserPrincipal;
 import com.repo.UserRepository;
 import com.utils.JwtProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,12 +23,22 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private final UserRepository userRepository;
 
     @Autowired
-    private JwtDecoder jwtDecoder;
+    private static JwtDecoder jwtDecoder;
 
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JwtDecoder jwtDecoder, UserRepository userRepository) {
         super(authenticationManager);
         this.jwtDecoder = jwtDecoder;
         this.userRepository = userRepository;
+    }
+
+    public static Integer getUserIdFromJwt(String token) {
+        String id = jwtDecoder.decode(token.replace(JwtProperties.TOKEN_PREFIX, "")).getSubject();
+
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No id found in the JWT!");
+        }
+
+        return Integer.parseInt(id);
     }
 
     /**
