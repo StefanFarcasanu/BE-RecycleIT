@@ -20,4 +20,6 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
 
     @Query(value = "SELECT * FROM requests WHERE client_id = :clientId ORDER BY date DESC", nativeQuery = true)
     List<RecycleRequestEntity> getRecyclingHistoryForClientId(Integer clientId);
+
+    void deleteById(Integer requestId);
 }

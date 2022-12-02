@@ -56,4 +56,11 @@ public class RequestController {
     public List<RecycleRequestEntity> getRecyclingHistoryForClientId(@PathVariable Integer clientId) {
         return recycleRequestService.getRecyclingHistoryForClientId(clientId);
     }
+
+    // Should only be used for testing
+    @DeleteMapping("/{requestId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRequest(@PathVariable Integer requestId) {
+        recycleRequestService.deleteRequest(requestId);
+    }
 }

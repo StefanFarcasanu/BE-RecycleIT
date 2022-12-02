@@ -43,4 +43,11 @@ public class VoucherController {
         this.voucherService.addVoucher(voucherDto);
         return "Voucher created!\n";
     }
+
+    // Should only be used for testing
+    @DeleteMapping("/{voucherId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVoucher(@PathVariable Integer voucherId) {
+        voucherService.deleteVoucher(voucherId);
+    }
 }

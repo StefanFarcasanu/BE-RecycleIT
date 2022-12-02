@@ -8,6 +8,7 @@ import com.domain.validation.ValidationException;
 import com.repo.UserRepository;
 import com.utils.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,13 @@ public class UserService {
 
         user.setPassword("");
         return user;
+    }
+
+    public void deleteUser(Integer userId) {
+        try {
+            userRepository.deleteById(userId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no user with the provided ID!");
+        }
     }
 }

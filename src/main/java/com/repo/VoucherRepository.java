@@ -16,4 +16,6 @@ public interface VoucherRepository extends JpaRepository<VoucherEntity, Integer>
     Optional<List<VoucherEntity>> findAllByRetailerId(Integer retailerId);
 
     Optional<VoucherEntity> getFirstByValueEqualsAndStatusEqualsAndClientIsNull(Double value, VoucherStatusEnum status);
+
+    void deleteById(Integer voucherId);
 }

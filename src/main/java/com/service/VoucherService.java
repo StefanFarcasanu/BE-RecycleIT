@@ -17,6 +17,7 @@ import com.repo.UserRepository;
 import com.repo.VoucherRepository;
 import com.domain.entity.NoAvailableVoucher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -123,5 +124,13 @@ public class VoucherService {
 
             }
         });
+    }
+
+    public void deleteVoucher(Integer voucherId) {
+        try {
+            voucherRepository.deleteById(voucherId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no voucher with the provided ID!");
+        }
     }
 }
