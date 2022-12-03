@@ -2,6 +2,7 @@ package com.controller;
 
 import com.domain.dto.UserDto;
 import com.domain.entity.UserEntity;
+import com.security.JWTAuthorizationFilter;
 import com.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,16 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/companies")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> getCompaniesFromClientCounty(@RequestHeader("Authorization") String token) {
+        return userService.getCompaniesFromUserCounty(JWTAuthorizationFilter.getUserIdFromJwt(token));
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getCompaniesFromClientCounty(@RequestParam(name = "clientId", required = false) Integer clientId) {
-        if (clientId == null) {
-            return userService.getAll();
-        } else {
-            return userService.getCompaniesFromUserCounty(clientId);
-        }
+    public List<UserDto> getAllUsers() {
+        return userService.getAll();
     }
 
     @PostMapping("/register")
@@ -33,16 +36,16 @@ public class UserController {
         return "Account created!\n";
     }
 
-    @PutMapping("/{clientId}")
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserEntity updateClientAccount(@PathVariable Integer clientId, @RequestBody UserDto user) {
-        return this.userService.updateClientAccount(clientId, user);
+    public UserEntity updateClientAccount(@RequestHeader("Authorization") String token, @RequestBody UserDto user) {
+        return this.userService.updateClientAccount(JWTAuthorizationFilter.getUserIdFromJwt(token), user);
     }
 
-    @GetMapping("/{clientId}")
+    @GetMapping("/client")
     @ResponseStatus(HttpStatus.OK)
-    public UserEntity getClientById(@PathVariable Integer clientId) {
-        return this.userService.getClientById(clientId);
+    public UserEntity getClientById(@RequestHeader("Authorization") String token) {
+        return this.userService.getClientById(JWTAuthorizationFilter.getUserIdFromJwt(token));
     }
 
     // Should only be used for testing

@@ -1,21 +1,16 @@
 package com.service;
 
 import com.domain.dto.VoucherDto;
-import com.domain.entity.RecycleRequestEntity;
-import com.domain.entity.UserEntity;
-import com.domain.entity.VoucherEntity;
-import com.domain.enums.VoucherStatusEnum;
-import com.domain.validation.ValidationException;
-import com.domain.validation.VoucherValidator;
-import com.repo.UserRepository;
+import com.domain.entity.NoAvailableVoucher;
 import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
 import com.domain.enums.RoleEnum;
 import com.domain.enums.VoucherStatusEnum;
+import com.domain.validation.ValidationException;
+import com.domain.validation.VoucherValidator;
 import com.repo.NoAvailableVouchersRepository;
 import com.repo.UserRepository;
 import com.repo.VoucherRepository;
-import com.domain.entity.NoAvailableVoucher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -46,18 +41,24 @@ public class VoucherService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers!");
         }
 
+        entities.forEach(x -> {
+            x.getClient().setPassword("");
+            x.getRetailer().setPassword("");
+            x.setCode("");
+        });
+
         return entities;
     }
 
 
-    public List<VoucherEntity> getVouchersById(Integer id) {
-        if(userRepository.findByIdAndRole(id, RoleEnum.CLIENT).isPresent()){
-            return voucherRepository.findAllByClientId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
+    public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
+        if(userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
+            return voucherRepository.findAllByClientId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
         }
-        else if(userRepository.findByIdAndRole(id, RoleEnum.RETAILER).isPresent()){
-            return voucherRepository.findAllByRetailerId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
+        else if(userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
+            return voucherRepository.findAllByRetailerId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + id);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + clientId);
     }
 
     public VoucherEntity addVoucher(VoucherDto voucherDto) {

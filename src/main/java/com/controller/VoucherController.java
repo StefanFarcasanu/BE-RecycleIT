@@ -1,12 +1,11 @@
 package com.controller;
 
 import com.domain.dto.VoucherDto;
-import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
+import com.security.JWTAuthorizationFilter;
 import com.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +17,28 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
+    @GetMapping("/client")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VoucherEntity> getVouchersByClientId(@RequestHeader("Authorization") String token) {
+        return voucherService.getVouchersByClientId(JWTAuthorizationFilter.getUserIdFromJwt(token));
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<VoucherEntity> getVouchers(@RequestParam(name = "id", required = false) Integer id) {
-        if (id == null) {
-            return voucherService.getAllVouchers();
-        } else {
-            return voucherService.getVouchersById(id);
-        }
+    public List<VoucherEntity> getAllVouchers() {
+        return voucherService.getAllVouchers();
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public VoucherEntity redeemVoucherForClient(
-            @RequestParam(name = "clientId", required = true) Integer clientId,
-            @RequestParam(name = "quantity", required = true) Double quantity
+            @RequestHeader("Authorization") String token,
+            @RequestParam(name = "quantity") Double quantity
     ) {
-        return voucherService.redeemVoucherForClientId(clientId, quantity * 10);
+        return voucherService.redeemVoucherForClientId(
+                JWTAuthorizationFilter.getUserIdFromJwt(token),
+                quantity * 10
+        );
     }
 
     @PostMapping("/create")
