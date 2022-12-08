@@ -23,6 +23,6 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
 
     void deleteById(Integer requestId);
 
-    @Query(value = "SELECT SUM(quantity) FROM requests", nativeQuery = true)
+    @Query(value = "SELECT SUM(quantity) FROM requests WHERE status = 'CONFIRMED'", nativeQuery = true)
     Double getTotalNumberOfKilograms();
 }
