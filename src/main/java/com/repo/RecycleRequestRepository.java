@@ -22,4 +22,7 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
     List<RecycleRequestEntity> getRecyclingHistoryForClientId(Integer clientId);
 
     void deleteById(Integer requestId);
+
+    @Query(value = "SELECT SUM(quantity) FROM requests", nativeQuery = true)
+    Double getTotalNumberOfKilograms();
 }

@@ -66,4 +66,10 @@ public class RequestController {
     public void deleteRequest(@PathVariable Integer requestId) {
         recycleRequestService.deleteRequest(requestId);
     }
+
+    @GetMapping("/total")
+    @ResponseStatus(HttpStatus.OK)
+    public Double getTotalNumberOfKilograms() {
+        return recycleRequestService.getTotalNumberOfKilograms();
+    }
 }

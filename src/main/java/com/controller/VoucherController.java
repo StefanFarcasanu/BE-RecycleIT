@@ -54,4 +54,10 @@ public class VoucherController {
     public void deleteVoucher(@PathVariable Integer voucherId) {
         voucherService.deleteVoucher(voucherId);
     }
+
+    @GetMapping("/total")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getTotalNumberOfVouchers() {
+        return voucherService.getTotalNumberOfVouchers();
+    }
 }
