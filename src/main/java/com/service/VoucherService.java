@@ -28,10 +28,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class VoucherService {
-
     private final VoucherRepository voucherRepository;
     private final UserRepository userRepository;
-
     private final NoAvailableVouchersRepository noAvailableVouchersRepository;
 
     public List<VoucherEntity> getAllVouchers() {

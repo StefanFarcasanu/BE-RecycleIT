@@ -1,5 +1,6 @@
 package com.security;
 
+import com.domain.enums.RoleEnum;
 import com.domain.service.UserDetailsService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -70,6 +71,11 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers("/users").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers("/vouchers/**").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.GET, "/requests").hasRole(RoleEnum.COMPANY.name())
+                .antMatchers(HttpMethod.POST, "/requests").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers("/requests/**").hasAnyRole()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling((exceptions) -> exceptions
