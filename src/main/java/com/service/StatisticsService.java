@@ -37,9 +37,9 @@ public class StatisticsService {
                 .map(countyDTO -> {
                     String countyName = countyDTO.getCountyName();
                     CountyStatisticsDTO countyStatisticsDTO = new CountyStatisticsDTO(countyDTO);
-                    countyStatisticsDTO.setNoClients(clientsCount.get(countyName));
-                    countyStatisticsDTO.setNoVouchers(vouchersCount.get(countyName));
-                    countyStatisticsDTO.setQuantity(quantityCount.get(countyName));
+                    countyStatisticsDTO.setNoClients(clientsCount.get(countyName) == null ? 0 : clientsCount.get(countyName));
+                    countyStatisticsDTO.setNoVouchers(vouchersCount.get(countyName) == null ? 0 : vouchersCount.get(countyName));
+                    countyStatisticsDTO.setQuantity(quantityCount.get(countyName) == null ? 0.0 : quantityCount.get(countyName));
                     return countyStatisticsDTO;
                 })
                 .collect(Collectors.toList());

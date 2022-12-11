@@ -19,15 +19,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class StatisticsServiceTest {
+class StatisticsServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -40,7 +40,7 @@ public class StatisticsServiceTest {
     private StatisticsService statisticsService;
 
     @Test
-    public void getCountyStatistics_normalFlow() {
+    void getCountyStatistics_normalFlow() {
         UserEntity userEntity1 = new UserEntity(1, "firstname", "lastname", "email", "pass", "Cluj", "city", RoleEnum.CLIENT);
         UserEntity userEntity3 = new UserEntity(3, "firstname", "lastname", "email", "pass", "Bihor", "city", RoleEnum.CLIENT);
         UserEntity userEntity4 = new UserEntity(4, "firstname", "lastname", "email", "pass", "Bihor", "city", RoleEnum.CLIENT);
@@ -65,5 +65,19 @@ public class StatisticsServiceTest {
         assertEquals(2, bihorStatistics.getNoClients());
         assertEquals(1, bihorStatistics.getNoVouchers());
         assertEquals(500.0, bihorStatistics.getQuantity());
+    }
+
+    @Test
+    void getCountyStatistics_noDataFoundForCounty() {
+        when(userRepository.findAllByRole(RoleEnum.CLIENT)).thenReturn(List.of());
+        when(voucherRepository.findAll()).thenReturn(List.of());
+        when(recycleRequestRepository.findByStatus(StatusEnum.CONFIRMED)).thenReturn(List.of());
+        when(countyClient.getCounties()).thenReturn(Collections.singletonList(new CountyDTO("CJ", "Cluj")));
+        List<CountyStatisticsDTO> result = statisticsService.getCountyStatistics();
+        CountyStatisticsDTO clujStatistics = result.stream().filter(statsDTO -> statsDTO.getCountyName().equals("Cluj")).findFirst().orElse(null);
+        assertNotNull(clujStatistics);
+        assertEquals(0, clujStatistics.getNoClients());
+        assertEquals(0, clujStatistics.getNoVouchers());
+        assertEquals(0.0, clujStatistics.getQuantity());
     }
 }
