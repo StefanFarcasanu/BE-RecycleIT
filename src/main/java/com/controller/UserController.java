@@ -54,4 +54,10 @@ public class UserController {
     public void deleteUser(@PathVariable Integer userId) {
         userService.deleteUser(userId);
     }
+
+    @GetMapping("/total")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getTotalNumberOfClients() {
+        return userService.getTotalNumberOfClients();
+    }
 }

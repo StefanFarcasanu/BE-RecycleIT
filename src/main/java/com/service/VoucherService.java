@@ -50,7 +50,6 @@ public class VoucherService {
         return entities;
     }
 
-
     public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
         if(userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
             return voucherRepository.findAllByClientId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
@@ -133,5 +132,9 @@ public class VoucherService {
         } catch (EmptyResultDataAccessException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no voucher with the provided ID!");
         }
+    }
+
+    public Integer getTotalNumberOfVouchers() {
+        return voucherRepository.getTotalNumberOfAssignedVouchers();
     }
 }
