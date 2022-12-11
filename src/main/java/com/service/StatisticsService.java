@@ -3,6 +3,7 @@ package com.service;
 import com.client.CountyClient;
 import com.domain.dto.CountyDTO;
 import com.domain.dto.CountyStatisticsDTO;
+import com.domain.entity.RecycleRequestEntity;
 import com.domain.entity.UserEntity;
 import com.domain.enums.RoleEnum;
 import com.domain.enums.StatusEnum;
@@ -31,7 +32,7 @@ public class StatisticsService {
         List<CountyDTO> countyDTOs = countyClient.getCounties();
         Map<String, Long> clientsCount = getUsersCountForEachCounty();
         Map<String, Long> vouchersCount = getVouchersCountForEachCounty();
-        Map<String, Long> quantityCount = getQuantityRecycledForEachCounty();
+        Map<String, Double> quantityCount = getQuantityRecycledForEachCounty();
         return countyDTOs.stream()
                 .map(countyDTO -> {
                     String countyName = countyDTO.getCountyName();
@@ -45,8 +46,7 @@ public class StatisticsService {
     }
 
     private Map<String, Long> getUsersCountForEachCounty() {
-        return userRepository.findAll().stream()
-                .filter(userEntity -> userEntity.getRole().equals(RoleEnum.CLIENT))
+        return userRepository.findAllByRole(RoleEnum.CLIENT).stream()
                 .collect(Collectors.groupingBy(UserEntity::getCounty, Collectors.counting()));
     }
 
@@ -55,8 +55,8 @@ public class StatisticsService {
                 .collect(Collectors.groupingBy(voucherEntity -> voucherEntity.getClient().getCounty(), Collectors.counting()));
     }
 
-    private Map<String, Long> getQuantityRecycledForEachCounty() {
+    private Map<String, Double> getQuantityRecycledForEachCounty() {
         return recycleRequestRepository.findByStatus(StatusEnum.CONFIRMED).stream()
-                .collect(Collectors.groupingBy(recycleRequestEntity -> recycleRequestEntity.getClient().getCounty(), Collectors.counting()));
+                .collect(Collectors.groupingBy(recycleRequestEntity -> recycleRequestEntity.getClient().getCounty(), Collectors.summingDouble(RecycleRequestEntity::getQuantity)));
     }
 }

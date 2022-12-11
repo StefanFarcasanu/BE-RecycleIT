@@ -3,7 +3,7 @@ package com.domain.dto;
 public class CountyStatisticsDTO {
     private String countyAbbreviation;
     private String countyName;
-    private Long quantity;
+    private Double quantity;
     private Long noVouchers;
     private Long noClients;
 
@@ -14,7 +14,7 @@ public class CountyStatisticsDTO {
         this.countyName = countyDTO.getCountyName();
     }
 
-    public CountyStatisticsDTO(String countyAbbreviation, String countyName, Long quantity, Long noVouchers, Long noClients) {
+    public CountyStatisticsDTO(String countyAbbreviation, String countyName, Double quantity, Long noVouchers, Long noClients) {
         this.countyAbbreviation = countyAbbreviation;
         this.countyName = countyName;
         this.quantity = quantity;
@@ -38,11 +38,11 @@ public class CountyStatisticsDTO {
         this.countyName = countyName;
     }
 
-    public Long getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
