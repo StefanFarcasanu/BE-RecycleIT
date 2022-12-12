@@ -32,6 +32,8 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final UserRepository userRepository;
 
+    private final EmailService emailService;
+
     private final NoAvailableVouchersRepository noAvailableVouchersRepository;
 
     public List<VoucherEntity> getAllVouchers() {
@@ -136,5 +138,41 @@ public class VoucherService {
 
     public Integer getTotalNumberOfVouchers() {
         return voucherRepository.getTotalNumberOfAssignedVouchers();
+    }
+
+    public VoucherEntity useVoucher(Integer voucherId, Integer clientId)
+    {
+        Optional<VoucherEntity> existingVoucher = voucherRepository.findById(voucherId);
+        if(existingVoucher.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Voucher not found!");
+        }
+
+        VoucherEntity newVoucher = existingVoucher.get();
+
+        if(!newVoucher.getClient().getId().equals(clientId)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid voucher id!");
+        }
+
+        if(newVoucher.getStatus().equals(VoucherStatusEnum.AVAILABLE)) {
+            newVoucher.setStatus(VoucherStatusEnum.USED);
+        }
+        else if(newVoucher.getStatus().equals(VoucherStatusEnum.EXPIRED))
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The voucher has expired!");
+        }
+        else if(newVoucher.getStatus().equals(VoucherStatusEnum.USED))
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The voucher has already been used!");
+        }
+
+        LocalDateTime localDateTime = java.time.LocalDateTime.now();
+        localDateTime = localDateTime.plusDays(30);
+        newVoucher.setVaildUntil(localDateTime);
+
+        voucherRepository.save(newVoucher);
+        emailService.sendUsedVoucherMail(newVoucher);
+
+        return newVoucher;
     }
 }

@@ -60,4 +60,10 @@ public class VoucherController {
     public Integer getTotalNumberOfVouchers() {
         return voucherService.getTotalNumberOfVouchers();
     }
+
+    @PutMapping("/{voucherId}")
+    @ResponseStatus(HttpStatus.OK)
+    public VoucherEntity useVoucher(@PathVariable Integer voucherId, @RequestHeader("Authorization") String token) {
+        return this.voucherService.useVoucher(voucherId, JWTAuthorizationFilter.getUserIdFromJwt(token));
+    }
 }
