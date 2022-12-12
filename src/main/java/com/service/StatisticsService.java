@@ -1,5 +1,11 @@
 package com.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.client.CountyClient;
 import com.domain.dto.CountyDTO;
 import com.domain.dto.CountyStatisticsDTO;
@@ -10,12 +16,6 @@ import com.domain.enums.StatusEnum;
 import com.repo.RecycleRequestRepository;
 import com.repo.UserRepository;
 import com.repo.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class StatisticsService {

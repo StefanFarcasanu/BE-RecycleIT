@@ -1,5 +1,6 @@
 package com.client;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,7 +35,7 @@ public class CountyClient {
             int statusCode = client.executeMethod(method);
 
             if (statusCode != HttpStatus.SC_OK) {
-                System.err.println("Method failed: " + method.getStatusLine());
+                return new ArrayList<>();
             }
 
             // Read the response body.
