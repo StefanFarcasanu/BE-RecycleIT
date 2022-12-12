@@ -71,7 +71,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/register").permitAll()
-                .antMatchers("/users").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers("/users**").hasRole(RoleEnum.CLIENT.name())
                 //endpoints that start with /voucher
                 .antMatchers(HttpMethod.GET, "/vouchers/client").hasAnyRole(RoleEnum.CLIENT.name(), RoleEnum.RETAILER.name())
                 .antMatchers(HttpMethod.PUT, "/vouchers").hasRole(RoleEnum.CLIENT.name())
