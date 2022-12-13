@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "dc4043c5-aaca-4d69-b095-04a129890a26",
+		"name": "RequestCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854877"
+	},
+	"item": [
+		{
+			"name": "get_request_by_company",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/requests/company",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_requests",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_request_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/requests/{requestId}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"{requestId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"firstname\": \"aa\",\r\n        \"lastname\": \"popescu\",\r\n        \"email\": \"pop.test2@yahoo.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"CLIENT\"\r\n    },\r\n    \"company\": {\r\n        \"id\": 2,\r\n        \"firstname\": \"Firma Reciclare\",\r\n        \"lastname\": null,\r\n        \"email\": \"firma@gmail.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"COMPANY\"\r\n    },\r\n    \"quantity\": 200.0,\r\n    \"type\": \"METAL\",\r\n    \"status\": \"DECLINED\",\r\n    \"date\": \"2022-11-24T14:21:19\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/requests/{requestId}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"{requestId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_recycle_request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"firstname\": \"aa\",\r\n        \"lastname\": \"popescu\",\r\n        \"email\": \"pop.test2@yahoo.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"CLIENT\"\r\n    },\r\n    \"company\": {\r\n        \"id\": 2,\r\n        \"firstname\": \"Firma Reciclare\",\r\n        \"lastname\": null,\r\n        \"email\": \"firma@gmail.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"COMPANY\"\r\n    },\r\n    \"quantity\": 200.0,\r\n    \"type\": \"METAL\",\r\n    \"status\": \"PENDING\",\r\n    \"date\": \"2022-11-24T14:21:19\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_milestone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/requests/milestone",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"milestone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_history",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/requests/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/requests/{requestId}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"{requestId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_total",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/requests/total",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"requests",
+						"total"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

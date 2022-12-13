@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "b95bbf61-3dd4-4002-9a18-ab90f5c7024d",
+		"name": "UserCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854877"
+	},
+	"item": [
+		{
+			"name": "get_companies_from_client_county",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzMzkwMSwiaWF0IjoxNjcwOTMwMzAxLCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.FJ2mgTCrUjraRxJ026za4xkQXfnghtsk-ND7f_11fqcUuOOOKo8kBvmj8hoe-WNN4NmMjVs5Eu1h5QCYlOHuK262LNlohENu_uv4xj7r0rUY7Hu9iWkMiZI6TMX75Sk4QekdygqVWi4ablCBUD563NHi-nhyCkt-G9QpTcF0Y3FO-OX5gYoGpqzzsb2ao4I8B9PiK3oCE_l9pMvtyOkfRzE_-ZLlLScB7uLLSlfWLjWYf_95HVZiTWMJ166l2lyXbAqf1VIBnawvMSJ0DPOTVDXMPUIZJMBYEt9EN9tonsy2vrZZeeXpqfnkl9T7jMg-j0nn1Q4fg1WSs3otZ4YBRw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzMzkwMSwiaWF0IjoxNjcwOTMwMzAxLCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.FJ2mgTCrUjraRxJ026za4xkQXfnghtsk-ND7f_11fqcUuOOOKo8kBvmj8hoe-WNN4NmMjVs5Eu1h5QCYlOHuK262LNlohENu_uv4xj7r0rUY7Hu9iWkMiZI6TMX75Sk4QekdygqVWi4ablCBUD563NHi-nhyCkt-G9QpTcF0Y3FO-OX5gYoGpqzzsb2ao4I8B9PiK3oCE_l9pMvtyOkfRzE_-ZLlLScB7uLLSlfWLjWYf_95HVZiTWMJ166l2lyXbAqf1VIBnawvMSJ0DPOTVDXMPUIZJMBYEt9EN9tonsy2vrZZeeXpqfnkl9T7jMg-j0nn1Q4fg1WSs3otZ4YBRw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register_user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"aa\",\r\n    \"lastname\":\"popescu\",\r\n    \"email\":\"pop.test@yahoo.com\",\r\n    \"password\":\"tttttttta\",\r\n    \"county\":\"Cluj\",\r\n    \"city\":\"Cluj-Napoca\",\r\n    \"role\":\"CLIENT\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_client_account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"aa\",\r\n    \"lastname\":\"popescu\",\r\n    \"email\":\"pop.test2@yahoo.com\",\r\n    \"password\":\"tttttttta\",\r\n    \"county\":\"Cluj\",\r\n    \"city\":\"Cluj-Napoca\",\r\n    \"role\":\"CLIENT\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_client_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/client",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/{userId}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_total_number_of_clients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTY3MDkzNzc5NSwiaWF0IjoxNjcwOTM0MTk1LCJzY29wZSI6IlJPTEVfQ0xJRU5UIn0.HyOVoGmRFelj5NRurNdBMFA30R6Us65Giu3OW0myfizeNOgRWk4b5Bi4E6sE8Ne5Eh3gc-3oClclal826OKXzbo5UxWHzK3N3kPhMt282JJq2SX4zOY82XKXxl2bfnd8WdopTqEU2hZrQX2uYJ0tG5gxiNXNUsZjr8HbMyHWfgajszR9e4Tv6hpeUV45HYc5n2nOGufuTxzEiM3lHPWGfVPwCqfsbqScV5lBCgqViuaJ8kSHcQ8mVjHAI0hovqxhyNusR-qr0A_COwN7AaTpopzjnyMi37CrnjiDUt36XylkHl6V5j2TAVy4S2rC3We95HjWgSd3fLX_Jm9KZ1qVcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/total",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"total"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
