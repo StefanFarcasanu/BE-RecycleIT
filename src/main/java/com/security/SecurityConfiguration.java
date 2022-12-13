@@ -1,5 +1,6 @@
 package com.security;
 
+import com.domain.enums.RoleEnum;
 import com.domain.service.UserDetailsService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -70,6 +71,21 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers("/users**").hasRole(RoleEnum.CLIENT.name())
+                //endpoints that start with /voucher
+                .antMatchers(HttpMethod.GET, "/vouchers/client").hasAnyRole(RoleEnum.CLIENT.name(), RoleEnum.RETAILER.name())
+                .antMatchers(HttpMethod.PUT, "/vouchers").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.GET, "/vouchers/total").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.POST, "/vouchers/create").hasRole(RoleEnum.RETAILER.name())
+                .antMatchers("/vouchers/**").hasAnyRole() // other endpoints that were not treated above, we consider them accessible to everyone
+                //endpoints that start with /request
+                .antMatchers(HttpMethod.GET, "/requests/history").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.POST, "/requests").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.GET, "/requests/milestone").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.GET, "/requests/total").hasRole(RoleEnum.CLIENT.name())
+                .antMatchers(HttpMethod.GET, "/requests/company").hasRole(RoleEnum.COMPANY.name())
+                .antMatchers(HttpMethod.PUT, "requests/{\\d+}").hasRole(RoleEnum.COMPANY.name())
+                .antMatchers("/requests/**").hasAnyRole() // other endpoints that were not treated above, we consider them accessible to everyone
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling((exceptions) -> exceptions

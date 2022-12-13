@@ -1,6 +1,7 @@
 package com.repo;
 
 import com.domain.entity.RecycleRequestEntity;
+import com.domain.enums.StatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,6 +21,8 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
 
     @Query(value = "SELECT * FROM requests WHERE client_id = :clientId ORDER BY date DESC", nativeQuery = true)
     List<RecycleRequestEntity> getRecyclingHistoryForClientId(Integer clientId);
+
+    List<RecycleRequestEntity> findByStatus(StatusEnum statusEnum);
 
     void deleteById(Integer requestId);
 

@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByIdAndRole(Integer integer, RoleEnum roleEnum);
 
+    List<UserEntity> findAllByRole(RoleEnum roleEnum);
+
     void deleteById(Integer userId);
 
     @Query(value = "SELECT COUNT(*) FROM users WHERE role = 'CLIENT'", nativeQuery = true)
