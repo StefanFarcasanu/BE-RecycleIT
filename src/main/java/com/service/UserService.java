@@ -89,4 +89,8 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no user with the provided ID!");
         }
     }
+
+    public Integer getTotalNumberOfClients() {
+        return userRepository.getTotalNumberOfClients();
+    }
 }

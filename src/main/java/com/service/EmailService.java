@@ -1,6 +1,7 @@
 package com.service;
 
 import com.domain.entity.RecycleRequestEntity;
+import com.domain.entity.VoucherEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -70,6 +71,33 @@ public class EmailService {
                 helper.setTo(requestEntity.getClient().getEmail());
                 helper.setText(template, true);
                 helper.setSubject("Thanks from RecycleIT!");
+
+                javaMailSender.send(mailMessage);
+            } else {
+                throw new Exception("Error while loading mail template!");
+            }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    public void sendUsedVoucherMail(VoucherEntity voucherEntity) {
+        try {
+
+            String template = loadTemplate("src/main/resources/usedVoucherEmailTemplate.html");
+            if (template != null) {
+
+                template = template.replace("{0}", voucherEntity.getClient().getFirstname());
+                template = template.replace("{1}", voucherEntity.getCode());
+                template = template.replace("{2}", voucherEntity.getVaildUntil().toLocalDate().toString());
+
+                MimeMessage mailMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true);
+
+                helper.setFrom(SENDER);
+                helper.setTo(voucherEntity.getClient().getEmail());
+                helper.setText(template, true);
+                helper.setSubject("Your voucher");
 
                 javaMailSender.send(mailMessage);
             } else {

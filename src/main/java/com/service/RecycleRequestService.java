@@ -176,4 +176,8 @@ public class RecycleRequestService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no request with the provided ID!");
         }
     }
+
+    public Double getTotalNumberOfKilograms() {
+        return recycleRequestRepository.getTotalNumberOfKilograms();
+    }
 }

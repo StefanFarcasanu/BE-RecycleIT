@@ -25,4 +25,7 @@ public interface RecycleRequestRepository extends JpaRepository<RecycleRequestEn
     List<RecycleRequestEntity> findByStatus(StatusEnum statusEnum);
 
     void deleteById(Integer requestId);
+
+    @Query(value = "SELECT SUM(quantity) FROM requests WHERE status = 'CONFIRMED'", nativeQuery = true)
+    Double getTotalNumberOfKilograms();
 }
