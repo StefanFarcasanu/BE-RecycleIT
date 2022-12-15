@@ -1,0 +1,838 @@
+{
+	"info": {
+		"_postman_id": "15d04e21-baf3-4dee-a05f-9bd6f894e974",
+		"name": "ProiectColectiv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854877"
+	},
+	"item": [
+		{
+			"name": "User_Controller",
+			"item": [
+				{
+					"name": "get_companies_from_client_county",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/companies",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register_user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"aa\",\r\n    \"lastname\":\"popescu\",\r\n    \"email\":\"pop.test@yahoo.com\",\r\n    \"password\":\"tttttttta\",\r\n    \"county\":\"Cluj\",\r\n    \"city\":\"Cluj-Napoca\",\r\n    \"role\":\"CLIENT\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_client_account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"aa\",\r\n    \"lastname\":\"popescu\",\r\n    \"email\":\"pop.test2@yahoo.com\",\r\n    \"password\":\"tttttttta\",\r\n    \"county\":\"Cluj\",\r\n    \"city\":\"Cluj-Napoca\",\r\n    \"role\":\"CLIENT\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_client_by_id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/client",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_total_number_of_clients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/total",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"total"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Request_Controller",
+			"item": [
+				{
+					"name": "get_milestone",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/milestone",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"milestone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/history",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_total",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/total",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_request_by_company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/company",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/requests",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_request_by_id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/requests/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"firstname\": \"aa\",\r\n        \"lastname\": \"popescu\",\r\n        \"email\": \"pop.test2@yahoo.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"CLIENT\"\r\n    },\r\n    \"company\": {\r\n        \"id\": 2,\r\n        \"firstname\": \"Firma Reciclare\",\r\n        \"lastname\": null,\r\n        \"email\": \"firma@gmail.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"COMPANY\"\r\n    },\r\n    \"quantity\": 200.0,\r\n    \"type\": \"METAL\",\r\n    \"status\": \"DECLINED\",\r\n    \"date\": \"2022-11-24T14:21:19\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/requests/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create_recycle_request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"firstname\": \"aa\",\r\n        \"lastname\": \"popescu\",\r\n        \"email\": \"pop.test2@yahoo.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"CLIENT\"\r\n    },\r\n    \"company\": {\r\n        \"id\": 2,\r\n        \"firstname\": \"Firma Reciclare\",\r\n        \"lastname\": null,\r\n        \"email\": \"firma@gmail.com\",\r\n        \"password\": \"\",\r\n        \"county\": \"Cluj\",\r\n        \"city\": \"Cluj-Napoca\",\r\n        \"role\": \"COMPANY\"\r\n    },\r\n    \"quantity\": 200.0,\r\n    \"type\": \"METAL\",\r\n    \"status\": \"PENDING\",\r\n    \"date\": \"2022-11-24T14:21:19\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/requests",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"requests"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Voucher_Controller",
+			"item": [
+				{
+					"name": "get_voucher_by_clientId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers/client",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_vouchers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create_voucher",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\":null,\r\n    \"retailerId\":2,\r\n    \"value\":120,\r\n    \"details\":\"details test\",\r\n    \"code\":null,\r\n    \"status\":null,\r\n    \"validUntil\":null\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_voucher",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_total_number_of_assign_vouchers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers/total",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "use_voucher Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SECURITY_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/vouchers/{{REQUEST_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"vouchers",
+								"{{REQUEST_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var token = pm.response.headers.get(\"Authorization\");\r",
+							"pm.environment.set(\"SECURITY_TOKEN\", token.split(\" \")[1]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{PASSWORD}}",
+							"type": "string"
+						},
+						{
+							"key": "USERNAME",
+							"value": "{{USERNAME}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
