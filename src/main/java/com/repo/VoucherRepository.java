@@ -20,5 +20,5 @@ public interface VoucherRepository extends JpaRepository<VoucherEntity, Integer>
     void deleteById(Integer voucherId);
 
     @Query(value = "SELECT COUNT(*) FROM vouchers WHERE client_id IS NOT NULL", nativeQuery = true)
-    Integer getTotalNumberOfAssignedVouchers();
+    Optional<Integer> getTotalNumberOfAssignedVouchers();
 }

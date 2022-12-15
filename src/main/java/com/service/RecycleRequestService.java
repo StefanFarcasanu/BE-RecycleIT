@@ -178,6 +178,6 @@ public class RecycleRequestService {
     }
 
     public Double getTotalNumberOfKilograms() {
-        return recycleRequestRepository.getTotalNumberOfKilograms();
+        return recycleRequestRepository.getTotalNumberOfKilograms().orElse(0D);
     }
 }

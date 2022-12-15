@@ -91,6 +91,6 @@ public class UserService {
     }
 
     public Integer getTotalNumberOfClients() {
-        return userRepository.getTotalNumberOfClients();
+        return userRepository.getTotalNumberOfClients().orElse(0);
     }
 }
