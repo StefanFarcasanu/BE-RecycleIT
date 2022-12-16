@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,7 @@ public class VoucherController {
                                 @RequestParam(name = "number") Integer number
     ){
         this.voucherService.addVoucher(voucherDto, number);
-        return new ResponseEntity<>("Voucher(s) created!\n", HttpStatus.CREATED);
+        return new ResponseEntity<>(List.of("Voucher(s) created!\n"), HttpStatus.CREATED);
     }
 
     // Should only be used for testing
