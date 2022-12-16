@@ -134,7 +134,7 @@ public class VoucherService {
     }
 
     public Integer getTotalNumberOfVouchers() {
-        return voucherRepository.getTotalNumberOfAssignedVouchers();
+        return voucherRepository.getTotalNumberOfAssignedVouchers().orElse(0);
     }
 
     public VoucherEntity useVoucher(Integer voucherId, Integer clientId)

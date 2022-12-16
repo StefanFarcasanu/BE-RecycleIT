@@ -29,11 +29,11 @@ public class UserValidator {
             Matcher matcher = pattern.matcher(entity.getEmail());
             boolean matchFound = matcher.find();
             if (!matchFound)
-                err += "Invalid e-mail!\n";
+                err += "Invalid email!\n";
         }
 
         if (Objects.equals(entity.getCounty(), "")) {
-            err += "Invalid country!\n";
+            err += "Invalid county!\n";
         }
 
         if (Objects.equals(entity.getCity(), "")) {

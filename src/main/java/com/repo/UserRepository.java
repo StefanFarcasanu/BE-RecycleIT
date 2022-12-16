@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     void deleteById(Integer userId);
 
     @Query(value = "SELECT COUNT(*) FROM users WHERE role = 'CLIENT'", nativeQuery = true)
-    Integer getTotalNumberOfClients();
+    Optional<Integer> getTotalNumberOfClients();
 }
