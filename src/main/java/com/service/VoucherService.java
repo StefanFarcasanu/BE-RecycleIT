@@ -59,24 +59,28 @@ public class VoucherService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + clientId);
     }
 
-    public VoucherEntity addVoucher(VoucherDto voucherDto) {
+    public void addVoucher(VoucherDto voucherDto, Integer number) {
 
         if (!userRepository.existsById(voucherDto.getRetailerId()))
             throw new ValidationException("Invalid retailer id!");
 
+        if(number <= 0)
+            throw new ValidationException("Invalid number of vouchers!");
+
         UserEntity user = userRepository.getReferenceById(voucherDto.getRetailerId());
-        UUID uuid = UUID.randomUUID();
-
-        VoucherEntity voucher = VoucherEntity.builder()
-                .retailer(user)
-                .value(voucherDto.getValue())
-                .details(voucherDto.getDetails())
-                .code(uuid.toString())
-                .status(VoucherStatusEnum.AVAILABLE)
-                .build();
-        VoucherValidator.validate(voucher);
-
-        return this.voucherRepository.save(voucher);
+        for(int i=0; i<number; i++)
+        {
+            UUID uuid = UUID.randomUUID();
+            VoucherEntity voucher = VoucherEntity.builder()
+                    .retailer(user)
+                    .value(voucherDto.getValue())
+                    .details(voucherDto.getDetails())
+                    .status(VoucherStatusEnum.AVAILABLE)
+                    .code(uuid.toString())
+                    .build();
+            VoucherValidator.validate(voucher);
+            this.voucherRepository.save(voucher);
+        }
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {
