@@ -84,7 +84,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/requests/milestone").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers(HttpMethod.GET, "/requests/total").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers(HttpMethod.GET, "/requests/company").hasRole(RoleEnum.COMPANY.name())
-                .antMatchers(HttpMethod.PUT, "requests/{\\d+}").hasRole(RoleEnum.COMPANY.name())
+                .antMatchers(HttpMethod.PUT, "/requests/{\\d+}").hasRole(RoleEnum.COMPANY.name())
                 .antMatchers("/requests/**").hasAnyRole() // other endpoints that were not treated above, we consider them accessible to everyone
                 .anyRequest().authenticated()
                 .and()
