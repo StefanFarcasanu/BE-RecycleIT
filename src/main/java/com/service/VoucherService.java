@@ -11,6 +11,7 @@ import com.domain.validation.VoucherValidator;
 import com.repo.NoAvailableVouchersRepository;
 import com.repo.UserRepository;
 import com.repo.VoucherRepository;
+import com.utils.VoucherMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -50,16 +51,42 @@ public class VoucherService {
     }
 
     public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
-        if(userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
-            return voucherRepository.findAllByClientId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
+        if (userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
+            Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByClientId(clientId);
+            if (voucherEntities.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!");
+            }
+
+            List<VoucherEntity> voucherEntityList = voucherEntities.get();
+            voucherEntityList.forEach(x -> {
+                x.getClient().setPassword("");
+                x.getRetailer().setPassword("");
+                x.setCode("");
+            });
+
+            return voucherEntityList;
+        } else if (userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
+            Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByRetailerId(clientId);
+            if (voucherEntities.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!");
+            }
+
+            List<VoucherEntity> voucherEntityList = voucherEntities.get();
+            voucherEntityList.forEach(x -> {
+                if (x.getClient() != null) {
+                    x.getClient().setPassword("");
+                }
+                x.getRetailer().setPassword("");
+                x.setCode("");
+            });
+
+            return voucherEntityList;
         }
-        else if(userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
-            return voucherRepository.findAllByRetailerId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
-        }
+
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + clientId);
     }
 
-    public VoucherEntity addVoucher(VoucherDto voucherDto) {
+    public VoucherDto addVoucher(VoucherDto voucherDto) {
 
         if (!userRepository.existsById(voucherDto.getRetailerId()))
             throw new ValidationException("Invalid retailer id!");
@@ -76,7 +103,7 @@ public class VoucherService {
                 .build();
         VoucherValidator.validate(voucher);
 
-        return this.voucherRepository.save(voucher);
+        return VoucherMapper.entityToDto(this.voucherRepository.save(voucher));
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {

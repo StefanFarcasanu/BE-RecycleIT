@@ -25,6 +25,15 @@ This repo is used for keeping the backend of the RecycleIT application developed
 - Run the `Docker image` first
 - Run the `Main configuration`
 
+### Requirements for the running Postman Collection for Tests
+
+- Go to resources/postmanCollection/tests
+- Import the collection and the environment
+- Open the environment, and replace the `CLIENT_ID`, `RETAILER_ID`, `COMPANY_ID`, `EMAIL_COMPANY`, `PASSWORD_CLIENT`, `PASSWORD_COMPANY`, `PASSWORD_RETAILER` values with the ones that will be relevant to your testing (depends on the data you have in the `users` table)
+- Make sure your `requests` and `vouchers` tables are empty
+- Right-click the collection in Postman and click `Run Collection`
+- Make sure all requests are checked, make sure the `Run manually` option is checked and click the `Run Proiect Colectiv Tests` button
+
 ## Problems and solutions
 
 
@@ -46,5 +55,4 @@ a new version of the db you will have to follow the steps mentioned below:
 - There can't be multiple sql scripts with the same version.
 
 - In case of sql script failure, you will need to delete the record containing your script  
-e.g.: If the V1.1__create_test_table.sql fails you will need to delete de record with version 1.1  
-
+e.g.: If the V1.1__create_test_table.sql fails you will need to delete de record with version 1.1

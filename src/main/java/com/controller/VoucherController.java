@@ -43,9 +43,8 @@ public class VoucherController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public String createVoucher(@RequestBody VoucherDto voucherDto){
-        this.voucherService.addVoucher(voucherDto);
-        return "Voucher created!\n";
+    public VoucherDto createVoucher(@RequestBody VoucherDto voucherDto){
+        return this.voucherService.addVoucher(voucherDto);
     }
 
     // Should only be used for testing
