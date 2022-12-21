@@ -6,6 +6,7 @@ import com.security.JWTAuthorizationFilter;
 import com.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +44,9 @@ public class VoucherController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public VoucherDto createVoucher(@RequestBody VoucherDto voucherDto){
-        return this.voucherService.addVoucher(voucherDto);
+    public List<VoucherDto> createVoucher(@RequestBody VoucherDto voucherDto,
+                                             @RequestParam(name = "number") Integer number) {
+        return this.voucherService.addVoucher(voucherDto, number);
     }
 
     // Should only be used for testing

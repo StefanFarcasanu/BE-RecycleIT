@@ -1177,17 +1177,19 @@
 							"\r",
 							"    const responseJson = pm.response.json();\r",
 							"\r",
-							"    pm.expect(responseJson.clientId).to.eql(null);\r",
-							"    pm.expect(responseJson.value).to.eql(5.0);\r",
-							"    pm.expect(responseJson.details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
-							"    pm.expect(responseJson.status).to.eql(\"AVAILABLE\");\r",
-							"    pm.expect(responseJson.retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"    pm.expect(responseJson.length).to.eql(1);\r",
+							"\r",
+							"    pm.expect(responseJson[0].clientId).to.eql(null);\r",
+							"    pm.expect(responseJson[0].value).to.eql(5.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"    pm.expect(responseJson[0].retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
 							"})\r",
 							"\r",
 							"pm.test(\"Set Voucher ID 5\", function() {\r",
 							"    const responseJson = pm.response.json();\r",
 							"\r",
-							"    pm.environment.set(\"VOUCHER_ID_5\", responseJson.id);\r",
+							"    pm.environment.set(\"VOUCHER_ID_5\", responseJson[0].id);\r",
 							"})"
 						],
 						"type": "text/javascript"
@@ -1217,13 +1219,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/vouchers/create",
+					"raw": "{{BASE_URL}}/vouchers/create?number=1",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
 						"vouchers",
 						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "1"
+						}
 					]
 				}
 			},
@@ -1241,17 +1249,19 @@
 							"\r",
 							"    const responseJson = pm.response.json();\r",
 							"\r",
-							"    pm.expect(responseJson.clientId).to.eql(null);\r",
-							"    pm.expect(responseJson.value).to.eql(10.0);\r",
-							"    pm.expect(responseJson.details).to.eql(\"10 RON reducere pentru toate produsele Lidl\");\r",
-							"    pm.expect(responseJson.status).to.eql(\"AVAILABLE\");\r",
-							"    pm.expect(responseJson.retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"    pm.expect(responseJson.length).to.eql(1);\r",
+							"\r",
+							"    pm.expect(responseJson[0].clientId).to.eql(null);\r",
+							"    pm.expect(responseJson[0].value).to.eql(10.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"10 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"    pm.expect(responseJson[0].retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
 							"})\r",
 							"\r",
 							"pm.test(\"Set Voucher ID 5\", function() {\r",
 							"    const responseJson = pm.response.json();\r",
 							"\r",
-							"    pm.environment.set(\"VOUCHER_ID_10\", responseJson.id);\r",
+							"    pm.environment.set(\"VOUCHER_ID_10\", responseJson[0].id);\r",
 							"})"
 						],
 						"type": "text/javascript"
@@ -1281,13 +1291,131 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/vouchers/create",
+					"raw": "{{BASE_URL}}/vouchers/create?number=1",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
 						"vouchers",
 						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19b. Add Voucher 10 RON Invalid Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 19b. Add Voucher 10 RON Invalid Number\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": {{RETAILER_ID}},\r\n    \"value\": 10,\r\n    \"details\": \"10 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19c. Add Voucher 10 RON Invalid Retailer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 19c. Add Voucher 10 RON Invalid Retailer\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": 420,\r\n    \"value\": 10,\r\n    \"details\": \"10 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "0"
+						}
 					]
 				}
 			},

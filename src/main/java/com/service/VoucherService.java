@@ -22,9 +22,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,24 +88,31 @@ public class VoucherService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + clientId);
     }
 
-    public VoucherDto addVoucher(VoucherDto voucherDto) {
+    public List<VoucherDto> addVoucher(VoucherDto voucherDto, Integer number) {
+        if (!userRepository.existsById(voucherDto.getRetailerId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid retailer ID!");
+        }
 
-        if (!userRepository.existsById(voucherDto.getRetailerId()))
-            throw new ValidationException("Invalid retailer id!");
+        if(number <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid number of vouchers!");
+        }
 
         UserEntity user = userRepository.getReferenceById(voucherDto.getRetailerId());
-        UUID uuid = UUID.randomUUID();
+        List<VoucherEntity> savedVouchers = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            UUID uuid = UUID.randomUUID();
+            VoucherEntity voucher = VoucherEntity.builder()
+                    .retailer(user)
+                    .value(voucherDto.getValue())
+                    .details(voucherDto.getDetails())
+                    .status(VoucherStatusEnum.AVAILABLE)
+                    .code(uuid.toString())
+                    .build();
+            VoucherValidator.validate(voucher);
+            savedVouchers.add(this.voucherRepository.save(voucher));
+        }
 
-        VoucherEntity voucher = VoucherEntity.builder()
-                .retailer(user)
-                .value(voucherDto.getValue())
-                .details(voucherDto.getDetails())
-                .code(uuid.toString())
-                .status(VoucherStatusEnum.AVAILABLE)
-                .build();
-        VoucherValidator.validate(voucher);
-
-        return VoucherMapper.entityToDto(this.voucherRepository.save(voucher));
+        return savedVouchers.stream().map(VoucherMapper::entityToDto).collect(Collectors.toList());
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {
