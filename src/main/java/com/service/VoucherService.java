@@ -6,7 +6,6 @@ import com.domain.entity.UserEntity;
 import com.domain.entity.VoucherEntity;
 import com.domain.enums.RoleEnum;
 import com.domain.enums.VoucherStatusEnum;
-import com.domain.validation.ValidationException;
 import com.domain.validation.VoucherValidator;
 import com.repo.NoAvailableVouchersRepository;
 import com.repo.UserRepository;
@@ -53,7 +52,7 @@ public class VoucherService {
     }
 
     public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
-        if (userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
+        if (userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()) {
             Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByClientId(clientId);
             if (voucherEntities.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!");
@@ -67,7 +66,7 @@ public class VoucherService {
             });
 
             return voucherEntityList;
-        } else if (userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
+        } else if (userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()) {
             Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByRetailerId(clientId);
             if (voucherEntities.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!");
@@ -93,7 +92,7 @@ public class VoucherService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid retailer ID!");
         }
 
-        if(number <= 0) {
+        if (number <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid number of vouchers!");
         }
 
@@ -173,29 +172,23 @@ public class VoucherService {
         return voucherRepository.getTotalNumberOfAssignedVouchers().orElse(0);
     }
 
-    public VoucherEntity useVoucher(Integer voucherId, Integer clientId)
-    {
+    public VoucherEntity useVoucher(Integer voucherId, Integer clientId) {
         Optional<VoucherEntity> existingVoucher = voucherRepository.findById(voucherId);
-        if(existingVoucher.isEmpty())
-        {
+        if (existingVoucher.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Voucher not found!");
         }
 
         VoucherEntity newVoucher = existingVoucher.get();
 
-        if(!newVoucher.getClient().getId().equals(clientId)){
+        if (!newVoucher.getClient().getId().equals(clientId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid voucher id!");
         }
 
-        if(newVoucher.getStatus().equals(VoucherStatusEnum.AVAILABLE)) {
+        if (newVoucher.getStatus().equals(VoucherStatusEnum.AVAILABLE)) {
             newVoucher.setStatus(VoucherStatusEnum.USED);
-        }
-        else if(newVoucher.getStatus().equals(VoucherStatusEnum.EXPIRED))
-        {
+        } else if (newVoucher.getStatus().equals(VoucherStatusEnum.EXPIRED)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The voucher has expired!");
-        }
-        else if(newVoucher.getStatus().equals(VoucherStatusEnum.USED))
-        {
+        } else if (newVoucher.getStatus().equals(VoucherStatusEnum.USED)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The voucher has already been used!");
         }
 
@@ -205,6 +198,9 @@ public class VoucherService {
 
         voucherRepository.save(newVoucher);
         emailService.sendUsedVoucherMail(newVoucher);
+
+        newVoucher.getClient().setPassword("");
+        newVoucher.getRetailer().setPassword("");
 
         return newVoucher;
     }
