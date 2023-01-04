@@ -38,7 +38,12 @@ public class RequestController {
     @PutMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
     public RecycleRequestEntity updateRequest(@PathVariable Integer requestId, @RequestBody RecycleRequestDto body) {
-        return recycleRequestService.updateRequest(requestId, body);
+        RecycleRequestEntity recycleRequestEntity = recycleRequestService.updateRequest(requestId, body);
+
+        recycleRequestEntity.getClient().setPassword("");
+        recycleRequestEntity.getCompany().setPassword("");
+
+        return recycleRequestEntity;
     }
 
 
