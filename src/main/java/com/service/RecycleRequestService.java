@@ -47,7 +47,6 @@ public class RecycleRequestService {
         return entities;
     }
 
-    @Transactional
     public RecycleRequestEntity updateRequest(Integer requestId, RecycleRequestDto body) {
         if (body.getStatus() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request status not provided!");

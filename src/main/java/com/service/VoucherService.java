@@ -11,6 +11,7 @@ import com.domain.validation.VoucherValidator;
 import com.repo.NoAvailableVouchersRepository;
 import com.repo.UserRepository;
 import com.repo.VoucherRepository;
+import com.utils.VoucherMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,26 +53,53 @@ public class VoucherService {
     }
 
     public List<VoucherEntity> getVouchersByClientId(Integer clientId) {
-        if(userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
-            return voucherRepository.findAllByClientId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!"));
+        if (userRepository.findByIdAndRole(clientId, RoleEnum.CLIENT).isPresent()){
+            Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByClientId(clientId);
+            if (voucherEntities.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this client!");
+            }
+
+            List<VoucherEntity> voucherEntityList = voucherEntities.get();
+            voucherEntityList.forEach(x -> {
+                x.getClient().setPassword("");
+                x.getRetailer().setPassword("");
+                x.setCode("");
+            });
+
+            return voucherEntityList;
+        } else if (userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
+            Optional<List<VoucherEntity>> voucherEntities = voucherRepository.findAllByRetailerId(clientId);
+            if (voucherEntities.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!");
+            }
+
+            List<VoucherEntity> voucherEntityList = voucherEntities.get();
+            voucherEntityList.forEach(x -> {
+                if (x.getClient() != null) {
+                    x.getClient().setPassword("");
+                }
+                x.getRetailer().setPassword("");
+                x.setCode("");
+            });
+
+            return voucherEntityList;
         }
-        else if(userRepository.findByIdAndRole(clientId, RoleEnum.RETAILER).isPresent()){
-            return voucherRepository.findAllByRetailerId(clientId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no vouchers for this retailer!"));
-        }
+
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no client or retailer with this id: " + clientId);
     }
 
-    public void addVoucher(VoucherDto voucherDto, Integer number) {
+    public List<VoucherDto> addVoucher(VoucherDto voucherDto, Integer number) {
+        if (!userRepository.existsById(voucherDto.getRetailerId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid retailer ID!");
+        }
 
-        if (!userRepository.existsById(voucherDto.getRetailerId()))
-            throw new ValidationException("Invalid retailer id!");
-
-        if(number <= 0)
-            throw new ValidationException("Invalid number of vouchers!");
+        if(number <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid number of vouchers!");
+        }
 
         UserEntity user = userRepository.getReferenceById(voucherDto.getRetailerId());
-        for(int i=0; i<number; i++)
-        {
+        List<VoucherEntity> savedVouchers = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
             UUID uuid = UUID.randomUUID();
             VoucherEntity voucher = VoucherEntity.builder()
                     .retailer(user)
@@ -79,8 +109,10 @@ public class VoucherService {
                     .code(uuid.toString())
                     .build();
             VoucherValidator.validate(voucher);
-            this.voucherRepository.save(voucher);
+            savedVouchers.add(this.voucherRepository.save(voucher));
         }
+
+        return savedVouchers.stream().map(VoucherMapper::entityToDto).collect(Collectors.toList());
     }
 
     public VoucherEntity redeemVoucherForClientId(Integer clientId, Double value) {

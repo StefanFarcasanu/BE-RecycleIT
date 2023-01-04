@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -45,11 +44,9 @@ public class VoucherController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createVoucher(@RequestBody VoucherDto voucherDto,
-                                @RequestParam(name = "number") Integer number
-    ){
-        this.voucherService.addVoucher(voucherDto, number);
-        return new ResponseEntity<>(List.of("Voucher(s) created!\n"), HttpStatus.CREATED);
+    public List<VoucherDto> createVoucher(@RequestBody VoucherDto voucherDto,
+                                             @RequestParam(name = "number") Integer number) {
+        return this.voucherService.addVoucher(voucherDto, number);
     }
 
     // Should only be used for testing

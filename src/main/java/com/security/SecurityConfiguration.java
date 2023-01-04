@@ -77,6 +77,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.PUT, "/vouchers").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers(HttpMethod.GET, "/vouchers/total").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers(HttpMethod.POST, "/vouchers/create").hasRole(RoleEnum.RETAILER.name())
+                .antMatchers(HttpMethod.DELETE, "/vouchers/{\\d+}").hasRole(RoleEnum.RETAILER.name())
+                .antMatchers(HttpMethod.PUT, "/vouchers/{\\d+}").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers("/vouchers/**").hasAnyRole() // other endpoints that were not treated above, we consider them accessible to everyone
                 //endpoints that start with /request
                 .antMatchers(HttpMethod.GET, "/requests/history").hasRole(RoleEnum.CLIENT.name())
@@ -85,6 +87,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/requests/total").hasRole(RoleEnum.CLIENT.name())
                 .antMatchers(HttpMethod.GET, "/requests/company").hasRole(RoleEnum.COMPANY.name())
                 .antMatchers(HttpMethod.PUT, "/requests/{\\d+}").hasRole(RoleEnum.COMPANY.name())
+                .antMatchers(HttpMethod.DELETE, "/requests/{\\d+}").hasAnyRole(RoleEnum.COMPANY.name(), RoleEnum.CLIENT.name())
                 .antMatchers("/requests/**").hasAnyRole() // other endpoints that were not treated above, we consider them accessible to everyone
                 .anyRequest().authenticated()
                 .and()
@@ -135,5 +138,4 @@ public class SecurityConfiguration {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
-
 }

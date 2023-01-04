@@ -1,0 +1,2059 @@
+{
+	"info": {
+		"_postman_id": "44f16003-33c9-4643-a382-756046186def",
+		"name": "Proiect Colectiv Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20830179"
+	},
+	"item": [
+		{
+			"name": "01. Login Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Client Check status\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Client Token\", function() {\r",
+							"    let token = pm.response.headers.get(\"Authorization\");\r",
+							"    token = token.replace(\"Bearer \", \"\");\r",
+							"    \r",
+							"    pm.environment.set(\"SECURITY_TOKEN_CLIENT\", token)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{PASSWORD_CLIENT}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{EMAIL_CLIENT}}",
+							"type": "string"
+						},
+						{
+							"key": "USERNAME",
+							"value": "{{USERNAME}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02. Login Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Company Check status\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Company Token\", function() {\r",
+							"    let token = pm.response.headers.get(\"Authorization\");\r",
+							"    token = token.replace(\"Bearer \", \"\");\r",
+							"\r",
+							"    pm.environment.set(\"SECURITY_TOKEN_COMPANY\", token)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{PASSWORD_CLIENT}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{EMAIL_COMPANY}}",
+							"type": "string"
+						},
+						{
+							"key": "USERNAME",
+							"value": "{{USERNAME}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03a. Add Recycling Request Confirmed",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 03. Add Recycling Request\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.quantity).to.eql(5.5);\r",
+							"    pm.expect(responseJson.status).to.eql(\"PENDING\");\r",
+							"    pm.expect(responseJson.type).to.eql(\"METAL\");\r",
+							"\r",
+							"    pm.expect(responseJson.client.id).to.eql(1);\r",
+							"    pm.expect(responseJson.company.id).to.eql(2);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Request ID Confirmed\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.environment.set(\"REQUEST_ID_CONFIRMED\", responseJson.id)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": {{CLIENT_ID}},\r\n    \"companyId\": {{COMPANY_ID}},\r\n    \"quantity\": 5.5,\r\n    \"type\": \"METAL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03b. Add Recycling Request Pending",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 03b. Add Recycling Request\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.quantity).to.eql(10);\r",
+							"    pm.expect(responseJson.status).to.eql(\"PENDING\");\r",
+							"    pm.expect(responseJson.type).to.eql(\"PLASTIC\");\r",
+							"\r",
+							"    pm.expect(responseJson.client.id).to.eql(1);\r",
+							"    pm.expect(responseJson.company.id).to.eql(2);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Request ID Pending\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.environment.set(\"REQUEST_ID_PENDING\", responseJson.id)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": {{CLIENT_ID}},\r\n    \"companyId\": {{COMPANY_ID}},\r\n    \"quantity\": 10,\r\n    \"type\": \"PLASTIC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04. Update confirmed request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 04. Add Recycling Request\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.eql(\"CONFIRMED\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_COMPANY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/{{REQUEST_ID_CONFIRMED}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"{{REQUEST_ID_CONFIRMED}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05. Get Requests for Company",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 05. Get Requests for Company\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(2);\r",
+							"\r",
+							"    pm.expect(responseJson[0].quantity).to.eql(5.5);\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"CONFIRMED\");\r",
+							"    pm.expect(responseJson[0].type).to.eql(\"METAL\");\r",
+							"\r",
+							"    pm.expect(responseJson[0].client.id).to.eql(1);\r",
+							"    pm.expect(responseJson[0].company.id).to.eql(2);\r",
+							"\r",
+							"    pm.expect(responseJson[1].quantity).to.eql(10);\r",
+							"    pm.expect(responseJson[1].status).to.eql(\"PENDING\");\r",
+							"    pm.expect(responseJson[1].type).to.eql(\"PLASTIC\");\r",
+							"\r",
+							"    pm.expect(responseJson[1].client.id).to.eql(1);\r",
+							"    pm.expect(responseJson[1].company.id).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_COMPANY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/company",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "06. Get Next Milestone",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 06. Get Next Milestone\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.eql(\"6.0\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/milestone",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"milestone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "07. Get Recycling History",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 07. Get Recycling History\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    \r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(2);\r",
+							"\r",
+							"    pm.expect(responseJson[1].quantity).to.eql(5.5);\r",
+							"    pm.expect(responseJson[1].status).to.eql(\"CONFIRMED\");\r",
+							"    pm.expect(responseJson[1].type).to.eql(\"METAL\");\r",
+							"    pm.expect(responseJson[1].id).to.eql(pm.environment.get(\"REQUEST_ID_CONFIRMED\"));\r",
+							"\r",
+							"    pm.expect(responseJson[1].client.id).to.eql(1);\r",
+							"    pm.expect(responseJson[1].company.id).to.eql(2);\r",
+							"\r",
+							"    pm.expect(responseJson[0].quantity).to.eql(10);\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"PENDING\");\r",
+							"    pm.expect(responseJson[0].type).to.eql(\"PLASTIC\");\r",
+							"    pm.expect(responseJson[0].id).to.eql(pm.environment.get(\"REQUEST_ID_PENDING\"));\r",
+							"\r",
+							"    pm.expect(responseJson[0].client.id).to.eql(1);\r",
+							"    pm.expect(responseJson[0].company.id).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/history",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "08. Update pending request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 04. Add Recycling Request\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.eql(\"CONFIRMED\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_COMPANY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/{{REQUEST_ID_PENDING}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"{{REQUEST_ID_PENDING}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "09. Get Total Number of Kilograms",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 08. Get Total Number of Kilograms\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    \r",
+							"    pm.expect(pm.response.text()).to.eql(\"15.5\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/total",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"total"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Delete Confirmed Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 10. Delete Confirmed Request\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/{{REQUEST_ID_CONFIRMED}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"{{REQUEST_ID_CONFIRMED}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Delete Pending Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 10. Delete Confirmed Request\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/{{REQUEST_ID_PENDING}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"{{REQUEST_ID_PENDING}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. Add Wrong Recycling Request 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 12. Add Wrong Recycling Request\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": {{CLIENT_ID}},\r\n    \"companyId\": {{COMPANY_ID}},\r\n    \"quantity\": -3,\r\n    \"type\": \"METAL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13. Add Wrong Recycling Request 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 13. Add Wrong Recycling Request 2\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": {{CLIENT_ID}},\r\n    \"companyId\": {{COMPANY_ID}},\r\n    \"quantity\": -3,\r\n    \"type\": \"METAL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14. Update Request Wrong 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 14. Update Request Wrong 1\", function() {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_COMPANY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/23452252",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"23452252"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15. Update Request Wrong 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 15. Update Request Wrong 2\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_COMPANY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"CONFIRMEDADADA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/23452252",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"23452252"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "16. Delete Request Wrong",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 16. Delete Request Wrong\", function() {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/requests/53535353",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"requests",
+						"53535353"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "17. Login Retailer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Retailer Check status\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Retailer Token\", function() {\r",
+							"    let token = pm.response.headers.get(\"Authorization\");\r",
+							"    token = token.replace(\"Bearer \", \"\");\r",
+							"\r",
+							"    pm.environment.set(\"SECURITY_TOKEN_RETAILER\", token)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{PASSWORD_RETAILER}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{EMAIL_RETAILER}}",
+							"type": "string"
+						},
+						{
+							"key": "USERNAME",
+							"value": "{{USERNAME}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "18. Add Voucher 5 RON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 18. Add Voucher 5 RON\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(1);\r",
+							"\r",
+							"    pm.expect(responseJson[0].clientId).to.eql(null);\r",
+							"    pm.expect(responseJson[0].value).to.eql(5.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"    pm.expect(responseJson[0].retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Voucher ID 5\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.environment.set(\"VOUCHER_ID_5\", responseJson[0].id);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": {{RETAILER_ID}},\r\n    \"value\": 5,\r\n    \"details\": \"5 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19. Add Voucher 10 RON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 19. Add Voucher 10 RON\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(1);\r",
+							"\r",
+							"    pm.expect(responseJson[0].clientId).to.eql(null);\r",
+							"    pm.expect(responseJson[0].value).to.eql(10.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"10 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"    pm.expect(responseJson[0].retailerId + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Set Voucher ID 5\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.environment.set(\"VOUCHER_ID_10\", responseJson[0].id);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": {{RETAILER_ID}},\r\n    \"value\": 10,\r\n    \"details\": \"10 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19b. Add Voucher 10 RON Invalid Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 19b. Add Voucher 10 RON Invalid Number\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": {{RETAILER_ID}},\r\n    \"value\": 10,\r\n    \"details\": \"10 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19c. Add Voucher 10 RON Invalid Retailer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 19c. Add Voucher 10 RON Invalid Retailer\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"retailerId\": 420,\r\n    \"value\": 10,\r\n    \"details\": \"10 RON reducere pentru toate produsele Lidl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/create?number=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"create"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "20. Get Vouchers for Client Using Retailer Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 20. Get Vouchers for Client Using Retailer ID\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(2);\r",
+							"\r",
+							"    pm.expect(responseJson[0].client).to.eql(null);\r",
+							"    pm.expect(responseJson[0].value).to.eql(5.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"\r",
+							"    pm.expect(responseJson[0].retailer.id + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"\r",
+							"    pm.expect(responseJson[1].client).to.eql(null);\r",
+							"    pm.expect(responseJson[1].value).to.eql(10.0);\r",
+							"    pm.expect(responseJson[1].details).to.eql(\"10 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[1].status).to.eql(\"AVAILABLE\");\r",
+							"\r",
+							"    pm.expect(responseJson[1].retailer.id + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/client",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "21. Redeem Voucher For Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 21. Redeem Voucher for Client\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.client.id + \"\").to.eql(pm.environment.get(\"CLIENT_ID\"));\r",
+							"    pm.expect(responseJson.retailer.id + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"\r",
+							"    pm.expect(responseJson.value).to.eql(5.0);\r",
+							"    pm.expect(responseJson.details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson.status).to.eql(\"AVAILABLE\");\r",
+							"\r",
+							"    pm.expect(responseJson.validUntil).to.not.eql(null);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers?quantity=0.5",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers"
+					],
+					"query": [
+						{
+							"key": "quantity",
+							"value": "0.5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "22. Get Vouchers for Client Using Client Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 22. Get Vouchers for Client Using Client ID\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(1);\r",
+							"\r",
+							"    pm.expect(responseJson[0].client.id + \"\").to.eql(pm.environment.get(\"CLIENT_ID\"));\r",
+							"    pm.expect(responseJson[0].value).to.eql(5.0);\r",
+							"    pm.expect(responseJson[0].details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson[0].status).to.eql(\"AVAILABLE\");\r",
+							"    pm.expect(responseJson[0].validUntil).to.not.eql(null);\r",
+							"    pm.expect(responseJson[0].retailer.id + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/client",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "23. Get Total Number of Assigned Vouchers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 23. Get Total Number of Assigned Vouchers\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.eql(\"1\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/total",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"total"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "24a. Use Voucher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 24a. Use Voucher\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.client.id + \"\").to.eql(pm.environment.get(\"CLIENT_ID\"));\r",
+							"    pm.expect(responseJson.value).to.eql(5.0);\r",
+							"    pm.expect(responseJson.details).to.eql(\"5 RON reducere pentru toate produsele Lidl\");\r",
+							"    pm.expect(responseJson.status).to.eql(\"USED\");\r",
+							"    pm.expect(responseJson.validUntil).to.not.eql(null);\r",
+							"    pm.expect(responseJson.retailer.id + \"\").to.eql(pm.environment.get(\"RETAILER_ID\"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/{{VOUCHER_ID_5}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"{{VOUCHER_ID_5}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "24b. Use Voucher Already Used",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 24b. Use Voucher Already Used\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/{{VOUCHER_ID_5}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"{{VOUCHER_ID_5}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "25. Delete Voucher 5 RON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 25. Delete Voucher 5 RON\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/{{VOUCHER_ID_5}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"{{VOUCHER_ID_5}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "26. Delete Voucher 10 RON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 26. Delete Voucher 10 RON\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/{{VOUCHER_ID_10}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"{{VOUCHER_ID_10}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "27. Get Vouchers for Client Using Retailer Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 27. Get Vouchers for Client Using Retailer ID\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(0);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_RETAILER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/client",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "28. Get Vouchers for Client Using Client Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 28. Get Vouchers for Client Using Client ID\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson.length).to.eql(0);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/client",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "29. Get Total Number of Assigned Vouchers 0",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"After 29. Get Total Number of Assigned Vouchers 0\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.eql(\"0\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SECURITY_TOKEN_CLIENT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/vouchers/total",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"vouchers",
+						"total"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
