@@ -6,6 +6,7 @@ import com.domain.enums.StatusEnum;
 import com.domain.enums.TypeEnum;
 import com.repo.RecycleRequestRepository;
 import com.repo.UserRepository;
+import com.repo.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class RecycleRequestService {
     private final UserRepository userRepository;
 
     private final EmailService emailService;
+
+    private final VoucherRepository voucherRepository;
 
     public List<RecycleRequestEntity> getAllRequests() {
         List<RecycleRequestEntity> entities = recycleRequestRepository.findAll();
@@ -67,9 +70,6 @@ public class RecycleRequestService {
 
         recycleRequestRepository.save(updated);
         emailService.sendConfirmationMail(updated);
-
-        updated.getClient().setPassword("");
-        updated.getCompany().setPassword("");
 
         return updated;
     }
@@ -138,8 +138,9 @@ public class RecycleRequestService {
             return 0.5;
         } else {
             Double total = sum.get();
+            Integer numberOfVouchers = voucherRepository.countAllByClient(clientId).orElse(0);
 
-            if (total > 20) {
+            if (total > 20 && Integer.valueOf(12).equals(numberOfVouchers)) {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You have already redeemed all of your vouchers!");
             }
 
