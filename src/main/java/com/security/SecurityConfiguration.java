@@ -1,7 +1,7 @@
 package com.security;
 
 import com.domain.enums.RoleEnum;
-import com.domain.service.UserDetailsService;
+import com.service.UserDetailsService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

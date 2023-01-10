@@ -1,4 +1,4 @@
-package com.domain.service;
+package com.service;
 
 import com.domain.entity.UserEntity;
 import com.domain.entity.UserPrincipal;
