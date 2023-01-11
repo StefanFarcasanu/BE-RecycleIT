@@ -35,11 +35,11 @@ public class StatisticsService {
         Map<String, Double> quantityCount = getQuantityRecycledForEachCounty();
         return countyDTOs.stream()
                 .map(countyDTO -> {
-                    String countyName = countyDTO.getCountyName();
+                    String countyAbbreviation = countyDTO.getCountyAbbreviation();
                     CountyStatisticsDTO countyStatisticsDTO = new CountyStatisticsDTO(countyDTO);
-                    countyStatisticsDTO.setNoClients(clientsCount.get(countyName) == null ? 0 : clientsCount.get(countyName));
-                    countyStatisticsDTO.setNoVouchers(vouchersCount.get(countyName) == null ? 0 : vouchersCount.get(countyName));
-                    countyStatisticsDTO.setQuantity(quantityCount.get(countyName) == null ? 0.0 : quantityCount.get(countyName));
+                    countyStatisticsDTO.setNoClients(clientsCount.get(countyAbbreviation) == null ? 0 : clientsCount.get(countyAbbreviation));
+                    countyStatisticsDTO.setNoVouchers(vouchersCount.get(countyAbbreviation) == null ? 0 : vouchersCount.get(countyAbbreviation));
+                    countyStatisticsDTO.setQuantity(quantityCount.get(countyAbbreviation) == null ? 0.0 : quantityCount.get(countyAbbreviation));
                     return countyStatisticsDTO;
                 })
                 .collect(Collectors.toList());
