@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @Table(name = "no_available_vouchers")
 public class NoAvailableVoucher {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false, insertable = false, updatable = false)

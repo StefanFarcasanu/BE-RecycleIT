@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountyDTO {
+
     @JsonSetter("auto")
     private String countyAbbreviation;
     @JsonSetter("nume")

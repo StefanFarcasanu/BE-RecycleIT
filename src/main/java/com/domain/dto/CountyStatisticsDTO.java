@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountyStatisticsDTO {
+
     private String countyAbbreviation;
     private String countyName;
     private Double quantity;
