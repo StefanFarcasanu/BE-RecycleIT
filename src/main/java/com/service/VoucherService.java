@@ -138,7 +138,12 @@ public class VoucherService {
                 .value(value)
                 .build();
 
-        noAvailableVouchersRepository.save(noAvailableVoucher);
+        Optional<NoAvailableVoucher> noAvailableVoucherOptional = noAvailableVouchersRepository.findByUserIdAndValue(clientId, value);
+        if (noAvailableVoucherOptional.isEmpty()) {
+            noAvailableVouchersRepository.save(noAvailableVoucher);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("You are already in the waiting list for a %f Lei voucher", value));
+        }
 
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
