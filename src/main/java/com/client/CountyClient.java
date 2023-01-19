@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CountyClient {
+
     private final String URL = "https://roloca.coldfuse.io/judete";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
