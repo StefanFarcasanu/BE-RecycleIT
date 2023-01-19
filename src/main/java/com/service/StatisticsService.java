@@ -51,7 +51,7 @@ public class StatisticsService {
     }
 
     private Map<String, Long> getVouchersCountForEachCounty() {
-        return voucherRepository.findAll().stream()
+        return voucherRepository.findAllByClientIdNotNull().stream()
                 .collect(Collectors.groupingBy(voucherEntity -> voucherEntity.getClient().getCounty(), Collectors.counting()));
     }
 

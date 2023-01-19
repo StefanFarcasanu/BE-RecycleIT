@@ -46,7 +46,6 @@ public class RequestController {
         return recycleRequestEntity;
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RecycleRequestEntity addRecycleRequest(@RequestBody RecycleRequestDto body) {
